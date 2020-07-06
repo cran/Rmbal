@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Material Balance - Dry and Wet Gas Reservoirs</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Material Balance - Dry and Wet Gas Reservoirs</h1>
+
+
+
+<div id="examples" class="section level1">
+<h1><code>Examples</code></h1>
+<div id="example-1-dry-gas-reservoir-ikokuchi1984" class="section level2">
+<h2><code>Example 1: Dry Gas Reservoir</code> <font size="2"> <span class="citation">(Ikoku, Chi, 1984)</span> </font></h2>
+<div id="part-i-history-match" class="section level3">
+<h3><code>Part I: History Match</code></h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(Rmbal)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(Rrelperm)</a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="kw">library</span>(pracma)</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="kw">library</span>(minpack.lm)</a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb1-6" title="6"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb1-8" title="8"></a>
+<a class="sourceLine" id="cb1-9" title="9">p_pvt &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1798</span>, <span class="dv">1680</span>, <span class="dv">1540</span>, <span class="dv">1428</span>, <span class="dv">1335</span>)                 <span class="co"># psia</span></a>
+<a class="sourceLine" id="cb1-10" title="10"></a>
+<a class="sourceLine" id="cb1-11" title="11">Bg &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.00152</span>, <span class="fl">0.00163</span>, <span class="fl">0.00179</span>, <span class="fl">0.00196</span>, <span class="fl">0.00210</span>)     <span class="co"># RB/SCF</span></a>
+<a class="sourceLine" id="cb1-12" title="12"></a>
+<a class="sourceLine" id="cb1-13" title="13">Bo &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">length</span>(p_pvt))    <span class="co"># RB/STB</span></a>
+<a class="sourceLine" id="cb1-14" title="14"></a>
+<a class="sourceLine" id="cb1-15" title="15">Rv &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">length</span>(p_pvt))    <span class="co"># STB/SCF</span></a>
+<a class="sourceLine" id="cb1-16" title="16"></a>
+<a class="sourceLine" id="cb1-17" title="17">Rs &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">1e8</span>, <span class="kw">length</span>(p_pvt))  <span class="co"># SCF/STB</span></a>
+<a class="sourceLine" id="cb1-18" title="18"></a>
+<a class="sourceLine" id="cb1-19" title="19">Bw &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, <span class="kw">length</span>(p_pvt))    <span class="co"># RB/STB</span></a>
+<a class="sourceLine" id="cb1-20" title="20"></a>
+<a class="sourceLine" id="cb1-21" title="21">muo &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">0.5</span>, <span class="kw">length</span>(p_pvt))              <span class="co"># cp</span></a>
+<a class="sourceLine" id="cb1-22" title="22"></a>
+<a class="sourceLine" id="cb1-23" title="23">muw &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">0.25</span>, <span class="kw">length</span>(p_pvt))             <span class="co"># cp</span></a>
+<a class="sourceLine" id="cb1-24" title="24"></a>
+<a class="sourceLine" id="cb1-25" title="25">mug &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">0.015</span>, <span class="kw">length</span>(p_pvt))            <span class="co"># cp</span></a>
+<a class="sourceLine" id="cb1-26" title="26"></a>
+<a class="sourceLine" id="cb1-27" title="27">pvt_table &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">p =</span> p_pvt, <span class="dt">Bo =</span> Bo, <span class="dt">Rs =</span> Rs, <span class="dt">Rv =</span> Rv, <span class="dt">Bg =</span> Bg,</a>
+<a class="sourceLine" id="cb1-28" title="28">                             <span class="dt">Bw =</span> Bw, <span class="dt">muo =</span> muo, <span class="dt">mug =</span> mug, <span class="dt">muw =</span> muw)</a>
+<a class="sourceLine" id="cb1-29" title="29"></a>
+<a class="sourceLine" id="cb1-30" title="30">p &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1798</span>, <span class="dv">1680</span>, <span class="dv">1540</span>, <span class="dv">1428</span>, <span class="dv">1335</span>)</a>
+<a class="sourceLine" id="cb1-31" title="31"></a>
+<a class="sourceLine" id="cb1-32" title="32">Np &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="dt">length.out =</span> <span class="kw">length</span>(p))</a>
+<a class="sourceLine" id="cb1-33" title="33"></a>
+<a class="sourceLine" id="cb1-34" title="34">Gp &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.96</span>, <span class="fl">2.12</span>, <span class="fl">3.21</span>, <span class="fl">3.92</span>) <span class="op">*</span><span class="st"> </span><span class="fl">1e9</span>    <span class="co"># SCF</span></a>
+<a class="sourceLine" id="cb1-35" title="35"></a>
+<a class="sourceLine" id="cb1-36" title="36">Wp &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="dt">length.out =</span> <span class="kw">length</span>(p))</a>
+<a class="sourceLine" id="cb1-37" title="37"></a>
+<a class="sourceLine" id="cb1-38" title="38">We &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="dt">length.out =</span> <span class="kw">length</span>(p))</a>
+<a class="sourceLine" id="cb1-39" title="39"></a>
+<a class="sourceLine" id="cb1-40" title="40">Wi &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="dt">length.out =</span> <span class="kw">length</span>(p))</a>
+<a class="sourceLine" id="cb1-41" title="41"></a>
+<a class="sourceLine" id="cb1-42" title="42">wf &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">length</span>(p))</a>
+<a class="sourceLine" id="cb1-43" title="43"></a>
+<a class="sourceLine" id="cb1-44" title="44">mbal_optim_gas_lst &lt;-<span class="st"> </span><span class="kw">mbal_optim_param_gas</span>(<span class="dt">input_unit =</span> <span class="st">&quot;Field&quot;</span>, <span class="dt">output_unit =</span> <span class="st">&quot;Field&quot;</span>,  </a>
+<a class="sourceLine" id="cb1-45" title="45">                                          <span class="dt">unknown_param =</span> <span class="st">&quot;G&quot;</span>, <span class="dt">aquifer_model =</span> <span class="ot">NULL</span>, </a>
+<a class="sourceLine" id="cb1-46" title="46">                                          <span class="dt">G =</span> <span class="ot">NULL</span>, <span class="dt">phi =</span> <span class="fl">0.13</span>, <span class="dt">swi =</span> <span class="fl">0.52</span>, </a>
+<a class="sourceLine" id="cb1-47" title="47">                                          <span class="dt">Np =</span> Np, <span class="dt">Gp =</span> Gp, <span class="dt">Wp =</span> Wp, <span class="dt">Wi =</span> Wi, </a>
+<a class="sourceLine" id="cb1-48" title="48">                                          <span class="dt">We =</span> We, <span class="dt">pd =</span> <span class="dv">0</span>, <span class="dt">p =</span> p, <span class="dt">pvt =</span> pvt_table, </a>
+<a class="sourceLine" id="cb1-49" title="49">                                          <span class="dt">M =</span> <span class="dv">0</span>, <span class="dt">cf =</span> <span class="fl">3e-6</span>, <span class="dt">wf =</span> wf, <span class="dt">sgrw =</span> <span class="fl">0.0</span>)</a>
+<a class="sourceLine" id="cb1-50" title="50"></a>
+<a class="sourceLine" id="cb1-51" title="51">time_lst &lt;-<span class="st"> </span><span class="kw">mbal_time</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">0.5</span>, <span class="fl">1.0</span>, <span class="fl">1.5</span>, <span class="fl">2.0</span>), <span class="st">&quot;year&quot;</span>)</a>
+<a class="sourceLine" id="cb1-52" title="52"></a>
+<a class="sourceLine" id="cb1-53" title="53"><span class="co"># a number of plots will be automatically generated for quality check</span></a>
+<a class="sourceLine" id="cb1-54" title="54"></a>
+<a class="sourceLine" id="cb1-55" title="55">optim_results &lt;-<span class="st"> </span><span class="kw">mbal_optim_gas</span>(mbal_optim_gas_lst, time_lst)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /><img src="data:image/png;base64,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" style="display: block; margin: auto;" /><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkAAAAGACAMAAAByRC0tAAAAVFBMVEUAAAAAADoAAGYAAP8AOpAAZrY6AAA6ADo6AGY6kNtmAABmADpmkJBmtv+QOgCQZgCQtpCQ2/+2ZgC2/7a2///bkDrb////tmb/25D//7b//9v///+tOqn0AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAKCUlEQVR4nO3d61bbSBqGUWea0BN6YCaeVgz4/u9zLMkmMEE+6K0ySrH3j15ZDUsfhwdZkq3yaguB1Ud/AfzeBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAREREBEBEREQEQERERARAoHtKIRHxVQ2c3xUQREREBEBEREQEQERERARARE5MoBXX79iWWzByIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIgIiIiAiAiIiICICIiIgIpa4I2IPRERARAREREBEBEREQEQERKRSQM8P49Wef/xdZHMsVp2AutW38R+bwz+izbFcVQJ6fnjJprv5EW+OBasS0NPd/eGfm4kHMQE1wh6ISK1joP0uyDFQ6yqdhT3djWdhE/sfATXDdSAiAiIiICICIlLpOtDPl666DtS2Onug54fJJ8HmbI7lqvZk6teSm2Oxah0DbVb3Rz8uoEY4iCYiICICIlIxoKlXcszcHIskICICIlIroG68Dv3le5nNsVT2QEQERERARFwHIiIgIhcG9HR3//TX1JnVW093q5sf64mbMgTUiosD+nZmQJsv37ubH7vPf7sVayQ25tKHsO7kaw1H/b2F/U2FnVcktu3yY6Dz9kD93c19QG5tblytg+jDHmjt1ua2zdgD3a1OvFx1MB4DdVMvTBRQI2bsgfb3XEw+zfX60zwX1rrZD2FPd6duvCgzl2WbF1C/dzm1Byo0l2WbEdDj7YlT+O149WdjjcRP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" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"></a>
+<a class="sourceLine" id="cb2-2" title="2"><span class="kw">glimpse</span>(optim_results)</a>
+<a class="sourceLine" id="cb2-3" title="3"><span class="co">#&gt; List of 17</span></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co">#&gt;  $ input_unit : chr &quot;Field&quot;</span></a>
+<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt;  $ output_unit: chr &quot;Field&quot;</span></a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="co">#&gt;  $ G          : num 1.41e+10</span></a>
+<a class="sourceLine" id="cb2-7" title="7"><span class="co">#&gt;  $ phi        : num 0.13</span></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="co">#&gt;  $ swi        : num 0.52</span></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="co">#&gt;  $ pd         : num 0</span></a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt;  $ p          : num [1:5] 1798 1680 1540 1428 1335</span></a>
+<a class="sourceLine" id="cb2-11" title="11"><span class="co">#&gt;  $ cf         : num [1:5] 3e-06 3e-06 3e-06 3e-06 3e-06</span></a>
+<a class="sourceLine" id="cb2-12" title="12"><span class="co">#&gt;  $ M          : num 0</span></a>
+<a class="sourceLine" id="cb2-13" title="13"><span class="co">#&gt;  $ pvt        :&#39;data.frame&#39;: 5 obs. of  9 variables:</span></a>
+<a class="sourceLine" id="cb2-14" title="14"><span class="co">#&gt;   ..$ p  : num [1:5] 1798 1680 1540 1428 1335</span></a>
+<a class="sourceLine" id="cb2-15" title="15"><span class="co">#&gt;   ..$ Bo : num [1:5] 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb2-16" title="16"><span class="co">#&gt;   ..$ Rs : num [1:5] 1e+08 1e+08 1e+08 1e+08 1e+08</span></a>
+<a class="sourceLine" id="cb2-17" title="17"><span class="co">#&gt;   ..$ Rv : num [1:5] 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb2-18" title="18"><span class="co">#&gt;   ..$ Bg : num [1:5] 0.00152 0.00163 0.00179 0.00196 0.0021</span></a>
+<a class="sourceLine" id="cb2-19" title="19"><span class="co">#&gt;   ..$ Bw : num [1:5] 1 1 1 1 1</span></a>
+<a class="sourceLine" id="cb2-20" title="20"><span class="co">#&gt;   ..$ muo: num [1:5] 0.5 0.5 0.5 0.5 0.5</span></a>
+<a class="sourceLine" id="cb2-21" title="21"><span class="co">#&gt;   ..$ mug: num [1:5] 0.015 0.015 0.015 0.015 0.015</span></a>
+<a class="sourceLine" id="cb2-22" title="22"><span class="co">#&gt;   ..$ muw: num [1:5] 0.25 0.25 0.25 0.25 0.25</span></a>
+<a class="sourceLine" id="cb2-23" title="23"><span class="co">#&gt;  $ prod       :&#39;data.frame&#39;: 5 obs. of  3 variables:</span></a>
+<a class="sourceLine" id="cb2-24" title="24"><span class="co">#&gt;   ..$ Np: num [1:5] 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb2-25" title="25"><span class="co">#&gt;   ..$ Gp: num [1:5] 0.00 9.60e+08 2.12e+09 3.21e+09 3.92e+09</span></a>
+<a class="sourceLine" id="cb2-26" title="26"><span class="co">#&gt;   ..$ Wp: num [1:5] 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb2-27" title="27"><span class="co">#&gt;  $ inj        :&#39;data.frame&#39;: 5 obs. of  1 variable:</span></a>
+<a class="sourceLine" id="cb2-28" title="28"><span class="co">#&gt;   ..$ Wi: num [1:5] 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb2-29" title="29"><span class="co">#&gt;  $ We         : num [1:5] 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb2-30" title="30"><span class="co">#&gt;  $ aquifer    :List of 3</span></a>
+<a class="sourceLine" id="cb2-31" title="31"><span class="co">#&gt;   ..$ input_unit : chr &quot;Field&quot;</span></a>
+<a class="sourceLine" id="cb2-32" title="32"><span class="co">#&gt;   ..$ output_unit: chr &quot;Field&quot;</span></a>
+<a class="sourceLine" id="cb2-33" title="33"><span class="co">#&gt;   ..$ We         : num [1:5] 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb2-34" title="34"><span class="co">#&gt;   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;NoA&quot; &quot;aquifer&quot;</span></a>
+<a class="sourceLine" id="cb2-35" title="35"><span class="co">#&gt;  $ wf         : num [1:5] 1 1 1 1 1</span></a>
+<a class="sourceLine" id="cb2-36" title="36"><span class="co">#&gt;  $ sgrw       : num 0</span></a>
+<a class="sourceLine" id="cb2-37" title="37"><span class="co">#&gt;  $ p_est      : num [1:5] 1798 1680 1543 1426 1335</span></a>
+<a class="sourceLine" id="cb2-38" title="38"><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:2] &quot;volumetric_gas&quot; &quot;mbal_gas&quot;</span></a></code></pre></div>
+<div id="part-ii-reservoir-performance" class="section level4">
+<h4><code>Part II: Reservoir Performance</code></h4>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"></a>
+<a class="sourceLine" id="cb3-2" title="2">mbal_results &lt;-<span class="st"> </span><span class="kw">mbal_perform_gas</span>(optim_results, time_lst)</a>
+<a class="sourceLine" id="cb3-3" title="3"></a>
+<a class="sourceLine" id="cb3-4" title="4">mbal_results</a>
+<a class="sourceLine" id="cb3-5" title="5"><span class="co">#&gt;   P (psia) Eo (bbl/STB) Eg (bbl/SCF) Ew (bbl/STB) Ef (bbl/bbl) Egwf (bbl/SCF)</span></a>
+<a class="sourceLine" id="cb3-6" title="6"><span class="co">#&gt; 1     1798            0      0.00000            0     0.000000   0.0000000000</span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="co">#&gt; 2     1680            0      0.00011            0     0.000354   0.0001111210</span></a>
+<a class="sourceLine" id="cb3-8" title="8"><span class="co">#&gt; 3     1540            0      0.00027            0     0.000774   0.0002724510</span></a>
+<a class="sourceLine" id="cb3-9" title="9"><span class="co">#&gt; 4     1428            0      0.00044            0     0.001110   0.0004435150</span></a>
+<a class="sourceLine" id="cb3-10" title="10"><span class="co">#&gt; 5     1335            0      0.00058            0     0.001389   0.0005843985</span></a>
+<a class="sourceLine" id="cb3-11" title="11"><span class="co">#&gt;   Et (bbl) F (bbl) We       Igd Inwd        Ifwd Iawd Itot     RF_oil</span></a>
+<a class="sourceLine" id="cb3-12" title="12"><span class="co">#&gt; 1        0       0  0        NA   NA          NA   NA   NA 0.00000000</span></a>
+<a class="sourceLine" id="cb3-13" title="13"><span class="co">#&gt; 2  1566668 1564800  0 0.9899119    0 0.010088102    0    1 0.06817239</span></a>
+<a class="sourceLine" id="cb3-14" title="14"><span class="co">#&gt; 3  3841220 3794800  0 0.9910039    0 0.008996113    0    1 0.15220726</span></a>
+<a class="sourceLine" id="cb3-15" title="15"><span class="co">#&gt; 4  6253009 6291600  0 0.9920747    0 0.007925324    0    1 0.22628316</span></a>
+<a class="sourceLine" id="cb3-16" title="16"><span class="co">#&gt; 5  8239291 8232000  0 0.9924735    0 0.007526542    0    1 0.27828500</span></a>
+<a class="sourceLine" id="cb3-17" title="17"><span class="co">#&gt;       RF_gas SOg  SGg  SWg SOT  SGT  SWT qo (STB/day) qg (SCF/day) qw (STB/day)</span></a>
+<a class="sourceLine" id="cb3-18" title="18"><span class="co">#&gt; 1 0.00000000   0 0.48 0.52   0 0.48 0.52            0            0            0</span></a>
+<a class="sourceLine" id="cb3-19" title="19"><span class="co">#&gt; 2 0.06817239   0 0.48 0.52   0 0.48 0.52            0      5260274            0</span></a>
+<a class="sourceLine" id="cb3-20" title="20"><span class="co">#&gt; 3 0.15220726   0 0.48 0.52   0 0.48 0.52            0      6356164            0</span></a>
+<a class="sourceLine" id="cb3-21" title="21"><span class="co">#&gt; 4 0.22628316   0 0.48 0.52   0 0.48 0.52            0      5972603            0</span></a>
+<a class="sourceLine" id="cb3-22" title="22"><span class="co">#&gt; 5 0.27828500   0 0.48 0.52   0 0.48 0.52            0      3890411            0</span></a>
+<a class="sourceLine" id="cb3-23" title="23"><span class="co">#&gt;   fo fw GOR (SCF/STB) kro/krg</span></a>
+<a class="sourceLine" id="cb3-24" title="24"><span class="co">#&gt; 1  0  0           Inf       0</span></a>
+<a class="sourceLine" id="cb3-25" title="25"><span class="co">#&gt; 2  0  0           Inf       0</span></a>
+<a class="sourceLine" id="cb3-26" title="26"><span class="co">#&gt; 3  0  0           Inf       0</span></a>
+<a class="sourceLine" id="cb3-27" title="27"><span class="co">#&gt; 4  0  0           Inf       0</span></a>
+<a class="sourceLine" id="cb3-28" title="28"><span class="co">#&gt; 5  0  0           Inf       0</span></a>
+<a class="sourceLine" id="cb3-29" title="29"></a>
+<a class="sourceLine" id="cb3-30" title="30">p1 &lt;-<span class="st"> </span>mbal_results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="st">`</span><span class="dt">P (psia)</span><span class="st">`</span>, <span class="st">`</span><span class="dt">RF_gas</span><span class="st">`</span>, <span class="dt">color =</span> <span class="st">&quot;Forecast&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb3-31" title="31"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb3-32" title="32"><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">name=</span><span class="st">&quot;Data&quot;</span>, <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;Forecast&quot;</span> =<span class="st"> &quot;red&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb3-33" title="33"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Gas Recovery Plot&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb3-34" title="34"><span class="st">  </span><span class="kw">theme_bw</span>()</a>
+<a class="sourceLine" id="cb3-35" title="35"></a>
+<a class="sourceLine" id="cb3-36" title="36">p1</a></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkAAAAGACAMAAAByRC0tAAABL1BMVEUAAAAAADoAAGYAOjoAOmYAOpAAZrYzMzM6AAA6ADo6AGY6OgA6Ojo6OmY6OpA6ZmY6ZpA6ZrY6kLY6kNtNTU1NTW5NTY5NbqtNjshmAABmADpmAGZmOgBmOjpmOmZmZmZmkJBmkNtmtrZmtttmtv9uTU1uTW5uTY5ubo5ubqtuq+SOTU2OTW6OTY6Obk2ObquOyP+QOgCQOjqQZgCQZjqQZmaQkGaQkLaQttuQ27aQ2/+rbk2rbm6rbo6rjk2ryKur5OSr5P+2ZgC2Zjq2kDq2kGa2tpC2ttu225C229u22/+2///Ijk3I///bkDrbkJDbtmbbtpDb27bb29vb/7bb///kq27k///r6+v/AAD/tmb/yI7/25D/27b/29v/5Kv//7b//8j//9v//+T////ZlsJYAAAACXBIWXMAAA7DAAAOwwHHb6hkAAASb0lEQVR4nO2di1/b1h3FBQ3EydqtGbQpbbpXabskzYb3TEm3Ll73CsFLugKxcYsx+v//ht179fAjWBbWyU9H+JzPp0W2xVck58u9V8IKUawoFRLV/QUozY4EUipFAimVIoGUSpFASqVIIKVSJJBSKRJIqZSlBBq9eDuKonf+U7RPN0ryzrPlvrB5wBuP3fHbG0cTrwx+dgA6hnLlLCPQ8F4qx1bBTplA0Tqo3Ry4OytQF3UI5epZQqBRO3rXDT6jl621/fl7pa2O/l6o2RWSAl9EG0cSiCdLCNSPNpONQctvvPhRFK390m2M/uA2Psn2ylod7niBvr+XTWYvWtGN4J1/6sazbMfhzuZ4r1F7sxut/8ONNdnnTwA76weJQCnA+Vw8FipvMksI1Jn6hu+O55V0I30+2euHji930PIv+QGrn29kTw1a/lP67hPzvUbtt1rRxnfeqbifDXOzAmUACVRrri5QGCvyjNrrz5KxaNC6c5QOSj6Ta6BR249ML91rbmvfzUJbXrdP/E7ZfBS0GO8VjAimdrLZKp/CNsMaaAzQFFZnlhYoCBLK/d8//9iKvEBv/WLivCwVaM1Z5V4KI4QrOt3Kpr+443zquv88dLyXs9Ir4UelfAbLjQwj1MbRJEAC1ZfKAiXzjl8WdfzHd7Oz9tDqi9a7XrF+3n0yX8VxOnGFCcqL410Z75Uukv2R8hksEyhZI3mBcoAEqjFXFygdHuKkx+FO9JM//ytZrry8N3HW3k0HEa9CsUAe42er1wTyc1g+g01qIoF4stRZ2J1kY9xjvvT59vfZKjptNV1Dp0/Gl01hbg770gs43isTqB/9Kp/BXhdIUxhDlrsOFC5Cf/txFHo88ifUG0f96KdH8eibmZOm4U6yiH7sTrvbYaHs5qydqTWwM+fnXrvJvRKBRu23x5eaZgSaXEQXXY9S3mwqXYm+sZ+dvIezqShfV8fjvrt+edTPr1z3s3P9/DQ+GJnOd+le+YXC7sR17BmBJgBdncbXl+V+mPryY7+cfew3w+W8x34NEy4k3pldsjg7dt0g4/Z6K1xkfNFKrzYO0guJcSpZPN4rF2h8VeB1gcYAJ/Tm5JVpxTDcP43v59clFdJQC/T9vQ2NLOQhFmi4o7UNf4gFcqunO3V/DcqiEAukNCESSKkUCaRUigRSKkUCKZUigZRKubpANxXevAFDFmQJgYpfflUSU3Y/OLC2AxsAJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDGypQr9cbP6D/ayfqGw5spEC9JNlD+r92or7hQAlUYUf6A0ugJDNfZK83bRD9XztR33CgBKqwI/2BJVASCcQLbKJAWgMRASVQhR3pDyyBkug6EC+woQJNhf6vnahvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOLAZAr1SWNMMgYpfpv++JRow4EAJZAAk6hsOlEAGQKK+4UAJZAAk6hsOlEAGQKK+4UAJZAAk6hsOlEAGQKK+4UAJZAAk6hsOlEAGQKK+4UAJZAAk6hsOlEAGQKK+4UAJZAAk6hsOlEAGQKK+4UAJZAAk6hsOlEAGQKK+4UAJZAAk6hsOlEAGQKK+4UAJZAAk6hsOlEAGQKK+4UAJNPVrNxDA5fdrInDVBZr5xT/VgVX2ayJQAkmgSsAVF2j2lx9WBlbar4lACSSBKgElkASqBFxxgbQGqgqUQBKoEnDVBdJ1oIpACWQAJOobDpRABkCivuFACWQAJOobDpRABkCivuFACWQAJOobDpRABkCivuFACWQAJOobDpRABkCivuFACWQAJOobDpRABkCivuFACWQAJOobDpRABkCivuFACWQAJOobDpRABkCivuFACWQAJOobDpRABkCivuFACWQAJOobDpRABkCivuFACWQAJOobDuQS6Pzh9t2TsHX26fb2Xva0BOIFUgl08WQvPv7Ab51/8TQ+++xp+rwE4gVSCXT+6DA++/zQbZ16jZ5nQ5AE4gVSCXR2/ySMPUmSrZs+df9eR2VuqAQ6vTsh0MWTB9nzGoF4gVQCTY5A5w9zfyQQMZBKoPEayJ2F7Y2fl0C8QCqB/KyVnIVN+SOBiIFUAqXXgdwgdLzto7MwfiCXQHMigXiBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HFi3QMOd3eFOtH5Q+BkSiBdYt0Cdzbi7ftDdLPwMCcQLrFkgNwCN2ptxv3gIkkC8wPoFGu5sSaDmAmsWaNTe6q/t+4msKBKIF1j3GmjQijbjzsZR4WdIIF7g5d2M2pHP1Ljw/bOyB1kQncZfJ+A8gbbC/ydGhsGt/bIHWZCVEajX69VzYEtgkUB+iZs/9YYEclOYzzVcRPeS2B/YFlgoUOyvz4SKt/z/t9Ltsgebk5lF9Ki9OynqZZFAS+5Xu0D9jaNQbnf9wI9A2XbZo12emdP4uLPlj1P0GU0UqNcbG0TUNxy4QKD1gx98tc4eL1C2XfZol2dWoO61vJAogXzCyNB309bafuJNsl32aJdn9kcZzp6uRiDYgY2BxQK5eoc7Tph0BMq2yx7t8kwJ5I/UWeRkEwXSGihOJphkEEpGoGy77NEuzxKn8XX/Wr5lkgpU95fxprPwOpD3ZdBa2w8ypdvmAhW/zPp9u9LXgcLVmTAMddyq50t/suR/5pBuV8r0IjpKU/TTsIYKVP+BV+BnYeGiwHBny7+pY24kEC+w/rdz+A/uRKzoTF4C8QIlkAGQqG84kGUKi4suBUkgXmDdAoVLk9Fu3C06t5NAvMDaBSoTCcQLpBFo+JHWQE0ESiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcCCNQEWRQLzAOgVadDdPHgnEC1wkUP6uOlymBVpwQ0aIBOIFFncz8cbwiSR3k5a8v3Bwe1YQCXSdgEsJ9JoTBZFAVH3DgYXdTN7bNJHMieQfNxy8c2/9IP13Dt2H8L57/wYN/0aN/IXJSKDrBKwiUHJP8qC1Gza7m/Go7W8D+u7Dfb+LPy93z2kEouobDlxKoFa4i8IbMvxw3xviPviHY1ncA/9cvGAKy27JuI7/OgfDgesWqHgN5D+MfpcItJPc/vzj5G2pnWCE82xtv0ig0pFAvMAKAk2OQB8djF/wM1O6i5/hSgn0X41ADQUucx1oZg3kHyWbfg00uP1v98Tg1r6/D3qRQJ3khsLhjqawpgKXuRI9cxZ2Oz/9Sj90o+jGvd10Ihu1556F+Vsy/E3U/XDSVhAJxAus80cZ4Q78/sY30YJ/pFUCEQNr/1mYW2ovvKYtgXiBBAIt/pmIBOIF1i9QiX+vSgLxAiWQAZCobzhQAhkAifqGA+sVSD/KaDxQb2k1ABL1DQdKIAMgUd9woAQyABL1DQdKIAMgUd9woAQyABL1DQdKIAMgUd9woAQyABL1DQdKIAMgUd9woAQyABL1DQdKIAMgUd9woAQyABL1DQdyCXT+cPvuSbp99vlh9rQE4gVSCXTxZC8+/iDZPt1+XwI1AEgl0Pmjw2zgef7e1xqBmgCkEujs/kl8/sXT9EEi0E2fun8tnzI3VAKd3n1dIB+NQLxAKoEuG4F8JBAvkEqgiTWQBGoIkEqgiycP8rMwCdQMIJVA6XWgRB0J1Aggl0BzIoF4gRLIAEjUNxwogQyARH3DgRLIAEjUNxwogQyARH3DgRLIAEjUNxwogQyARH3DgRLIAEjUNxwogQyARH3DgRLIAEjUNxwogQyARH3DgRLIAEjUNxwogQyARH3DgRLIAEjUNxwogQyARH3DgRLIAEjUNxwogQyARH3DgRLIAEjUNxwogQyARH3DgRLIAEjUNxwogQyARH3DgRLIAEjUNxwogQyAZgd+7ReUSqAQCVRqv0t+RbIECpFApfaTQPMigcrs1+u9bpAECpFAZfaTQHMjgcrsJ4HmRgKV2k9roHmRQKX2k0DzIoFK7qfrQJdHAvECJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDmyFQ3b+WT5mbZghU/DL99y3RgAEHSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHfcKAEMgAS9Q0HSiADIFHflfbr9XrkAp0/3L57MrMVSyAOYC/JzLNUAl082YuPP5je8pFADMAGCHT+6DA++/xwastHAhEAe71LDaIS6Oz+SXz+xdOprZs+df9aPuXVq1yg6aepBDq9m2kz3vLRCEQAbOoI5COBGIBaA0mgSvs1QKCLJw/ys7AHOgujAzblOpAfenQdqCFALoHmRALxAiWQAZCobzhQAhkAifqGAyWQAZCobzhQAhkAifqGAyWQAZCobzhQAhkAifqGAyWQAZCobziwGQIpvHkDhizI1QUCBf5nFbCWSCABK0UCCVgptQmkXI9IIKVSJJBSKRJIqRQJpFSKrUDpO6v9nYrZ2xyn3u24HPB4e3v7/UMg8OLJ9ntPgV+h/wK3t/eAX+HZp/5PjAFWi6lAp+FP7Rvfy253nb7rdTng8z2/jQWe3j0BAuMYC/T3yByDgBVjKdDz974OI9DZr3+zl93qMX3Hx1LAi6/CHUc4oEdAgR7mKscBw41Wjw4RwKqpYQq7+Opv7lsmvdls+p6zpYBuAPfzAw54dv+vfgrDAV38CAH8IycjEAZYLTUIdPzAj7np7a7Td70uBTz77KkfhYDAT4OOOGAyAAH/yOmqBwOsFnuBXDUX0BEo5PkecgSaJEG+Qt8xcox03zOn7x+u5giUnJI8wMzfEwLhgOe/DYUgv8LnD2LMoioBpmPOiq6BkhOm9HbX6btelwL6v82LvxzigP4sLIyTMGCyzscB0xEIA6yWa3IdCHrZxiNgV1kSYDLB4ICnwD9ytehKtFIpEkipFAmkVIoEUipFAimVIoGUSlkNgUbtyGdtP3+8O7vL4Fb2Yjz8cH/2VWVeVkWgLf+hu36QPO5uFu7e3zh641/SdclKCTTc2Q0PFw0xlwxQypyspEBdN8IMbv0pivxIM2i5yW03TGFh0++pIah0VkqgTjKFhUeD1vrBqL2ZrH0GrV33MfgVprmJBZFSnFURKCyi0yVQEMU5E0QZ3E6edJs/HMWpO9lQpSzMqgi0NfEoESgTpRNFfkkdHvfTU7Xp/ZWCSCD/fzc2hSnMyROel0Cls7oChSnsdj6pOXHC0rm/pinsKllFgeLOxCK6ny6avUB+AGp5gbSILp2VFKifncb7xU+67vHOuOXQ2pfhVEyn8WWzGgLNxF9ILBpkdCGxfFZSIP+jjCKBdB2xfFZTIDfEFAikH6ZeIaspkAKLBFIqRQIplSKBlEqRQEqlSCClUiSQUin/B64C9OtyQArQAAAAAElFTkSuQmCC" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"></a>
+<a class="sourceLine" id="cb4-2" title="2"></a>
+<a class="sourceLine" id="cb4-3" title="3">p2 &lt;-<span class="st"> </span>mbal_results  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="st">  </span>tidyr<span class="op">::</span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;Igd&quot;</span>, <span class="st">&quot;Ifwd&quot;</span>), <span class="dt">names_to =</span> <span class="st">&quot;Drive Mechanism&quot;</span>,</a>
+<a class="sourceLine" id="cb4-5" title="5">                      <span class="dt">values_to =</span> <span class="st">&quot;Fraction&quot;</span>, <span class="dt">values_drop_na =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="st">`</span><span class="dt">P (psia)</span><span class="st">`</span>, Fraction, <span class="dt">fill =</span> <span class="st">`</span><span class="dt">Drive Mechanism</span><span class="st">`</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="st">  </span><span class="kw">geom_area</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Energy Plot&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="st">  </span><span class="kw">theme_bw</span>()</a>
+<a class="sourceLine" id="cb4-10" title="10"></a>
+<a class="sourceLine" id="cb4-11" title="11">p2</a></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="part-iii-reservoir-forecast" class="section level3">
+<h3><code>Part III: Reservoir Forecast</code></h3>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"></a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="co"># gas saturation above the bubble point is zero, however the mbal_forecast_param_oil()</span></a>
+<a class="sourceLine" id="cb5-3" title="3"><span class="co"># requires a table of relative permeabilities as an input for the gas-oil system. </span></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co"># Therefore, an arbitrary table is generated using the &#39;Rrelperm&#39; package.</span></a>
+<a class="sourceLine" id="cb5-5" title="5"><span class="co"># The generated table does not impact the predictions above the bubble point.</span></a>
+<a class="sourceLine" id="cb5-6" title="6"></a>
+<a class="sourceLine" id="cb5-7" title="7"></a>
+<a class="sourceLine" id="cb5-8" title="8">rel_perm &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(Rrelperm<span class="op">::</span><span class="kw">kr2p_gl</span>(<span class="dt">SWCON =</span> <span class="fl">0.52</span>, <span class="dt">SOIRG =</span> <span class="fl">0.15</span>, <span class="dt">SORG =</span> <span class="fl">0.15</span>, </a>
+<a class="sourceLine" id="cb5-9" title="9">                                            <span class="dt">SGCON =</span> <span class="fl">0.05</span>, <span class="dt">SGCRIT =</span> <span class="fl">0.05</span>, <span class="dt">KRGCL =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb5-10" title="10">                                            <span class="dt">KROGCG =</span> <span class="dv">1</span>, <span class="dt">NG =</span> <span class="dv">1</span>, <span class="dt">NOG =</span> <span class="fl">1.0</span>, <span class="dt">NP =</span> <span class="dv">101</span>))</a>
+<a class="sourceLine" id="cb5-11" title="11"></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="kw">colnames</span>(rel_perm) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Sg&quot;</span>, <span class="st">&quot;Sl&quot;</span>, <span class="st">&quot;Krg&quot;</span>, <span class="st">&quot;Krog&quot;</span>)</a>
+<a class="sourceLine" id="cb5-13" title="13"></a>
+<a class="sourceLine" id="cb5-14" title="14">forecast_lst &lt;-<span class="st"> </span><span class="kw">mbal_forecast_param_gas</span>(<span class="dt">input_unit =</span> <span class="st">&quot;Field&quot;</span>, <span class="dt">output_unit =</span> <span class="st">&quot;Field&quot;</span>,</a>
+<a class="sourceLine" id="cb5-15" title="15">                                        <span class="dt">G =</span> <span class="fl">1.41e10</span>, <span class="dt">phi =</span> <span class="fl">0.13</span>, <span class="dt">swi =</span> <span class="fl">0.52</span>, <span class="dt">pd =</span> <span class="dv">0</span>, </a>
+<a class="sourceLine" id="cb5-16" title="16">                                        <span class="dt">p =</span> p, <span class="dt">pvt =</span> pvt_table, <span class="dt">M =</span> <span class="dv">0</span>, <span class="dt">cf =</span> <span class="fl">3e-6</span>, </a>
+<a class="sourceLine" id="cb5-17" title="17">                                        <span class="dt">wf =</span> wf, <span class="dt">rel_perm =</span> rel_perm)</a>
+<a class="sourceLine" id="cb5-18" title="18"></a>
+<a class="sourceLine" id="cb5-19" title="19"><span class="kw">glimpse</span>(forecast_lst)</a>
+<a class="sourceLine" id="cb5-20" title="20"><span class="co">#&gt; List of 12</span></a>
+<a class="sourceLine" id="cb5-21" title="21"><span class="co">#&gt;  $ input_unit : chr &quot;Field&quot;</span></a>
+<a class="sourceLine" id="cb5-22" title="22"><span class="co">#&gt;  $ output_unit: chr &quot;Field&quot;</span></a>
+<a class="sourceLine" id="cb5-23" title="23"><span class="co">#&gt;  $ G          : num 1.41e+10</span></a>
+<a class="sourceLine" id="cb5-24" title="24"><span class="co">#&gt;  $ phi        : num 0.13</span></a>
+<a class="sourceLine" id="cb5-25" title="25"><span class="co">#&gt;  $ swi        : num 0.52</span></a>
+<a class="sourceLine" id="cb5-26" title="26"><span class="co">#&gt;  $ pd         : num 0</span></a>
+<a class="sourceLine" id="cb5-27" title="27"><span class="co">#&gt;  $ p          : num [1:5] 1798 1680 1540 1428 1335</span></a>
+<a class="sourceLine" id="cb5-28" title="28"><span class="co">#&gt;  $ cf         : num [1:5] 3e-06 3e-06 3e-06 3e-06 3e-06</span></a>
+<a class="sourceLine" id="cb5-29" title="29"><span class="co">#&gt;  $ M          : num 0</span></a>
+<a class="sourceLine" id="cb5-30" title="30"><span class="co">#&gt;  $ pvt        :&#39;data.frame&#39;: 5 obs. of  9 variables:</span></a>
+<a class="sourceLine" id="cb5-31" title="31"><span class="co">#&gt;   ..$ p  : num [1:5] 1798 1680 1540 1428 1335</span></a>
+<a class="sourceLine" id="cb5-32" title="32"><span class="co">#&gt;   ..$ Bo : num [1:5] 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb5-33" title="33"><span class="co">#&gt;   ..$ Rs : num [1:5] 1e+08 1e+08 1e+08 1e+08 1e+08</span></a>
+<a class="sourceLine" id="cb5-34" title="34"><span class="co">#&gt;   ..$ Rv : num [1:5] 0 0 0 0 0</span></a>
+<a class="sourceLine" id="cb5-35" title="35"><span class="co">#&gt;   ..$ Bg : num [1:5] 0.00152 0.00163 0.00179 0.00196 0.0021</span></a>
+<a class="sourceLine" id="cb5-36" title="36"><span class="co">#&gt;   ..$ Bw : num [1:5] 1 1 1 1 1</span></a>
+<a class="sourceLine" id="cb5-37" title="37"><span class="co">#&gt;   ..$ muo: num [1:5] 0.5 0.5 0.5 0.5 0.5</span></a>
+<a class="sourceLine" id="cb5-38" title="38"><span class="co">#&gt;   ..$ mug: num [1:5] 0.015 0.015 0.015 0.015 0.015</span></a>
+<a class="sourceLine" id="cb5-39" title="39"><span class="co">#&gt;   ..$ muw: num [1:5] 0.25 0.25 0.25 0.25 0.25</span></a>
+<a class="sourceLine" id="cb5-40" title="40"><span class="co">#&gt;  $ wf         : num [1:5] 1 1 1 1 1</span></a>
+<a class="sourceLine" id="cb5-41" title="41"><span class="co">#&gt;  $ rel_perm   :&#39;data.frame&#39;: 101 obs. of  4 variables:</span></a>
+<a class="sourceLine" id="cb5-42" title="42"><span class="co">#&gt;   ..$ Sg  : num [1:101] 0 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 ...</span></a>
+<a class="sourceLine" id="cb5-43" title="43"><span class="co">#&gt;   ..$ Sl  : num [1:101] 1 0.99 0.98 0.97 0.96 0.95 0.94 0.93 0.92 0.91 ...</span></a>
+<a class="sourceLine" id="cb5-44" title="44"><span class="co">#&gt;   ..$ Krg : num [1:101] 0 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb5-45" title="45"><span class="co">#&gt;   ..$ Krog: num [1:101] 1 1 1 1 1 ...</span></a>
+<a class="sourceLine" id="cb5-46" title="46"><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:2] &quot;volumetric_forecast_gas&quot; &quot;forecast_gas&quot;</span></a>
+<a class="sourceLine" id="cb5-47" title="47"></a>
+<a class="sourceLine" id="cb5-48" title="48">forecast_results &lt;-<span class="st"> </span><span class="kw">mbal_forecast_gas</span>(forecast_lst, time_lst)</a>
+<a class="sourceLine" id="cb5-49" title="49"> </a>
+<a class="sourceLine" id="cb5-50" title="50">forecast_results</a>
+<a class="sourceLine" id="cb5-51" title="51"><span class="co">#&gt;   P (psia) SOg  SGg  SWg SOT  SGT  SWT GOR (SCF/STB)     RF_oil     RF_gas</span></a>
+<a class="sourceLine" id="cb5-52" title="52"><span class="co">#&gt; 1     1798   0 0.48 0.52   0 0.48 0.52           Inf 0.00000000 0.00000000</span></a>
+<a class="sourceLine" id="cb5-53" title="53"><span class="co">#&gt; 2     1680   0 0.48 0.52   0 0.48 0.52           Inf 0.06748466 0.06748466</span></a>
+<a class="sourceLine" id="cb5-54" title="54"><span class="co">#&gt; 3     1540   0 0.48 0.52   0 0.48 0.52           Inf 0.15083799 0.15083799</span></a>
+<a class="sourceLine" id="cb5-55" title="55"><span class="co">#&gt; 4     1428   0 0.48 0.52   0 0.48 0.52           Inf 0.22448980 0.22448980</span></a>
+<a class="sourceLine" id="cb5-56" title="56"><span class="co">#&gt; 5     1335   0 0.48 0.52   0 0.48 0.52           Inf 0.27619048 0.27619048</span></a>
+<a class="sourceLine" id="cb5-57" title="57"><span class="co">#&gt;   Liq_volume       Igd Inwd        Ifwd Iawd Itot</span></a>
+<a class="sourceLine" id="cb5-58" title="58"><span class="co">#&gt; 1          0        NA   NA          NA   NA   NA</span></a>
+<a class="sourceLine" id="cb5-59" title="59"><span class="co">#&gt; 2          0 0.9899119    0 0.010088102    0    1</span></a>
+<a class="sourceLine" id="cb5-60" title="60"><span class="co">#&gt; 3          0 0.9910039    0 0.008996113    0    1</span></a>
+<a class="sourceLine" id="cb5-61" title="61"><span class="co">#&gt; 4          0 0.9920747    0 0.007925324    0    1</span></a>
+<a class="sourceLine" id="cb5-62" title="62"><span class="co">#&gt; 5          0 0.9924735    0 0.007526542    0    1</span></a>
+<a class="sourceLine" id="cb5-63" title="63"></a>
+<a class="sourceLine" id="cb5-64" title="64">p1 &lt;-<span class="st"> </span>forecast_results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="st">`</span><span class="dt">P (psia)</span><span class="st">`</span>, <span class="st">`</span><span class="dt">RF_gas</span><span class="st">`</span>, <span class="dt">color =</span> <span class="st">&quot;Forecast&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb5-65" title="65"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb5-66" title="66"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">data =</span> mbal_results, <span class="kw">aes</span>(<span class="st">`</span><span class="dt">P (psia)</span><span class="st">`</span>, <span class="st">`</span><span class="dt">RF_gas</span><span class="st">`</span>, <span class="dt">color =</span> <span class="st">&quot;Field&quot;</span>))<span class="op">+</span></a>
+<a class="sourceLine" id="cb5-67" title="67"><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">name=</span><span class="st">&quot;Data&quot;</span>, <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;Forecast&quot;</span> =<span class="st"> &quot;red&quot;</span>, <span class="st">&quot;Field&quot;</span> =<span class="st"> &quot;black&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb5-68" title="68"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Oil Recovery Plot&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb5-69" title="69"><span class="st">  </span><span class="kw">theme_bw</span>()</a>
+<a class="sourceLine" id="cb5-70" title="70"></a>
+<a class="sourceLine" id="cb5-71" title="71">p1</a></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkAAAAGACAMAAAByRC0tAAABC1BMVEUAAAAAADoAAGYAOjoAOmYAOpAAZrYzMzM6AAA6ADo6AGY6OgA6Ojo6OmY6OpA6ZpA6ZrY6kNtNTU1NTW5NTY5NbqtNjshmAABmADpmAGZmOgBmOmZmZmZmkLZmtrZmtttmtv9uTU1uTW5uTY5ubo5ubqtuq+SOTU2OTW6OTY6Obk2ObquOyP+QOgCQOjqQZjqQkGaQttuQ27aQ2/+rbk2rbm6rbo6rjk2ryKur5OSr5P+2ZgC2Zjq2kDq2kGa225C22/+2///Ijk3I///bkDrbkJDbtmbbtpDb/7bb///kq27k///r6+v/AAD/tmb/yI7/25D/27b/29v/5Kv//7b//8j//9v//+T///+p1sTRAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAShUlEQVR4nO2djVvb1h2FBS3EZetaaFPS7KO0XZJmg20t6dbFW1eCl5UkNk4xoP//L5nu1ZWQjL/ie/jpyD7neRJkI14Zzsu9kmzhJFWUiCRNPwCl3ZFASlQkkBIVCaRERQIpUZFASlQkkBIVCaREZSmBrn78VZK89/szt3i0deb+5Z/oJXk+/An08ALw/W/zLVU+M/ztCWgbSkyWEejtw1DrT9MESjZB7ZbAg3GBeqhNKFFZQqCro+SjTJ23f01CoxWB8lav/pXsYh5eAL5MqppWP6M0nCUE6hV2uIWxESi0Otp3q7iRKp/MXnaS94/TcJcbuPIVR/vbN2tdHW33ks0fs7Gm+PoKsLt5km8lADKJE5SkSkzeXaCro+J3f7Sfy3NLoF+6rtxhx809G5k4g3KhuGvYcZ4MMlvKta6O3uskWz87p9LBxnENWApUACQQS95dID9s5Am1Tt4Hujra+CJN/9fZdkvH2SzkhqvkC7dS8SX+62/W8kZ0nTLdMSNfJtthrCsAmsJIcicCbXx85gYgP0JkRYcld5f/0m7mUy/750g3a4WRzY1K5QxWGulHqK2zKkACUQQskGv1Zecjd3NQdp/PV2kaJi4/QTlxnCs3awWKw5czWCHQh+F4rwKQQBy5i32ggT88my2Q+xo3W90SyFlZzmBVTSQQZe7kKCzsQwdt0klTWDaHfeeGspu1Csog+UM5g90WSFMYWWLPA00UaLSf70R/m6115HeUszlrv7YPnJnzO3fEXl0rp1wd/bqcwcYFqu5E36ykNJhlzkSPpp+JDn33sqOmYnbaLZYOKofxXsMw34W1Skqvch57TKAKoKfDeIqAnwsLfWd2ZLoMM9He+8LdftlJNvzCMJxITINk6c1aJSXMUzVgWny+BGQWb1fPTCvNhPDZ+EFyMH8lhSR8Ar19uKWRpT1hE2i0r32bVoVNoGzv6eOmH4PyDmETSGlZJJASFQmkREUCKVGRQEpUJJASlXcX6J7CmzswZE6WEGj2p98siFl0PTiwsQ0bACWQAZCobzhQAhkAifqGAyWQAZCobzhQAhkAifqGAyWQAZCobzhQAhkAifqGAyWQAZCobzhQAhkAifqGAyWQAZCobzhQAhkAifqGA1sqUJJUKPQ/dqK+4cBWCtT3Fwb2i5v0P3aivuFACRSxIv2GJVCesQfZDwIVBtH/2In6hgPbKVDf+yOBCIAtFShPuE3/YyfqGw5so0Bp3R/+HztR33CgBIpYkX7DEijP7QdZ0acFP3aivuHAlgpUC/2PnahvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOLAdAr1RWNMOgWZ/mv73lmjAgAMlkAGQqG84UAIZAIn6hgMlkAGQqG84UAIZAIn6hgMlkAGQqG84UAIZAIn6hgMlkAGQqG84UAIZAIn6hgMlkAGQqG84UAIZAIn6hgMlkAGQqG84UAIZAIn6hgMlkAGQqG84UAIZAIn6hgMlkAGQqG84UAIZAIn6hgMlkAGQqG84UAIZAIn6hgMlkAGQqG84UAIZAIn6hgMlUO3tVxHA5ddrI3DdBRp798x4YMx6bQRKIAkUBVxzgcbffjUaGLVeG4FrL1D97VejgVHrtREogervfhgLjFqvjcA1F2j83TPjgTHrtREogSRQFHDdBRp7+1UEcPn12giUQAZAor7hQAlkACTqGw6UQAZAor7hQAlkACTqGw6UQAZAor7hQAlkACTqGw6UQAZAor7hQAlkACTqGw6UQAZAor7hQAlkACTqGw6UQAZAor7hQAlkACTqGw6UQAZAor7hQAlkACTqGw6UQAZAor7hQAlkACTqGw6UQAZAor7hQC6BLp/s3X/tly6+3Ns7LO6WQLxAKoGunx2mrz5zS5ffPE8vvnoe7pdAvEAqgS6fnqYXX59mS+dOoxfFECSBeIFUAl08eu3Hnjz50j2Xpt/XUZkaKoHO71cEun72uLhfIxAvkEqg6gh0+aT0RwIRA6kEutkHyo7CDm/ul0C8QCqB3KyVH4XV/JFAxEAqgcJ5oGwQerXnoqMwfiCXQFMigXiBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBk7u5Okpctqv3vf1p0Y3MiQRaJeA0gXb9/1tn5V3DD44X3cicSKBVAs4SKB3tH5R3SaAWbrhpgdJeNokNO9lktuv+3w3Li25sSiTQKgFnCzTYOvOjUG/zxI1AxfKiW5scCbRKwDkCbZ784naDMnucQMXyolubnJpAmZOj/WSOkxKIFzh3BMr+y6atjePcm3x50a1NTk2g7rYb0nrb01ae8SDL0P/YifqGA2cLlNU72s+ECSNQsbzo1ianKlA2AF0dbbuRbtZXSCBe4NyjsHwQykegYnnRrU3OmECj/V0J1F7g3PNAzpdhZ+PYyxSWF93a5FQFyjbkoF1NYW0FzjwT7YehbrbX811mTzfZLpejUtsHGnYctnLCclIkEC9Qz4UZAIn6hgMlkAGQqG84sGmB/LntZM6JIAnEC2xYoGwn+uroYDRnt6qlAmW/GM1s2BLYsEBOne5ufn5gelopUN8PrX37DdsCCQTqreaJRAl0Vxl/KiOzp7d6I1A/CNS33rAxsGmB3CnL7ryn19opUN/7I4HgWeIwvum35Vsi/SJNP5A7TjsEmv1pzt/b4I/9hm2Bje9EJyGzng2TQEuut/oC5a9vHO3vuhd1TE0rBfIKNbNhS2DjI5A/hZgdiM06km+pQM1vWALlkUC8QJYpLJ11KkgC8QLnCVQ+n4NLHeheZZ0cpL1Zp4IkEC9wdjfhCGns3vwZ9N3hTjHphKWro4VearYmh/EMG2YVaOdk4h1RAo0+1z5QG4EzuynO0YxVHnxxH/JrusLS+w8lENeG+QXq7ron08PSIJFAXBtmFajjzxxn2oweHLvm3VLWv6Ywtg03LdDsfSCnzX5+1erOib+vK4G4Nswv0OfVJY1AbBtuXKDJ54Hq+0CDrTPtA5FumECgSakfhbmrVXfc8KOjMLoNkwoUGZ1IXCVgkwLNu5qnjATiBTYu0JwLMnwkEC9QAhkAifqGAyWQAZCobzhQAhkAifqGAyWQAZCobziwWYHKJ9tW8NJmhg2vuEALRwLxAkkE+q9GoJYCmxWom19QONrXFNZWYKMC9TZP3B9XGCRznoWVQLzAJgXyf0x4sPXvZM4faZVAxMB5ApWX5+JSP4wfdua//Y8E4gXO7qbyBwIqCZf1LLbFW5dw3BJoPkgC8QKXEuiWEzMyV6AF3npDAvECZ3ZT/pGk+t2FE+Gang8fbp6Et2wKry/r+L3igTs/OOG9nCTQKgFjBAqvZ+0cpOHyHvei6MHWzw+Oi1dJh0t+6pFAqwRcSqD8sh5nyOjBsX9la3l5T1glu+HuS+dMYXoqo/XAiH0g/0rovxyHl0b7y3t+kx+Pd70RmWfh9dL16KmMVQJGCFQdgcrLe9J8ZgqrhCs26pFAqwRc5jzQ2D6Qv6TQL7p9oOHOf7I7sj0b99fnJVCzGyYQaFLGjsJ2ysOv8KGX+Ct88ons6mjqUdjCkUC8QJJn42dHAvECJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDuQS6fLJ3/3VYvvj6tLhbAvECqQS6fnaYvvosXz7f+1QCtQBIJdDl09Ni4HnxyQ8agdoApBLo4tHr9PKb5+FGLtA9l6bflk+ZGiqBzu/fFshFIxAvkEqgSSOQiwTiBVIJVNkHkkAtAVIJdP3scXkUJoHaAaQSKJwHytWRQK0Acgk0JRKIFyiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgAaLbhW3/VWwL5SKCF1pvwvgISyEcCLbRev58kiQSaEAm0yHrenzGDJJCPBFpkPQk0NRJokfUk0NRIoIXW0z7QtEighdbTUdi0SKAF19N5oMmRQLxACWQAJOobDpRABkCivuFACWQAJOobDpRABkCivuFACWQAJOobDpRABkCivuFACWQAJOobDpRABkCivuFACWQAJOobDpRABkCivuFACWQAJOobDpRABkCivuHAdgjU9NvyKVPTDoFmf5r+95ZowIADJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKhvOFACGQCJ+oYDJZABkKjvqPX6/T65QJdP9u6/HltKJRAHsJ9n7F4qga6fHaavPqsvuUggBmC/nyQJt0CXT0/Ti69Pa0suEogA6P25bRCVQBePXqeX3zyvLd1zafpt+ZQ3b0qB6ndTCXR+v9DmZslFIxABsK0jkIsEYgBqH0gCRa3XiqOwx+VR2GMdhdEB23IeyA09Og/UEiCXQFMigXiBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HCiBDIBEfcOBEsgASNQ3HNgOgRTe3IEhc/LuAoEC/14FbCQSSMCoSCABo9KYQMpqRAIpUZFASlQkkBIVCaRExVag8Mpqd6Vi8TLH2qsdlwO+2tvb+/QUCLx+tvfJc+AjdA9wb+8Q+AgvvnTfMQYYF1OBzv137Ro/LC53rV/1uhzwxaFbxgLP778GAtMUC3TXyLwCASNjKdCLT37wI9DFH/90WFzqUb/iYyng9ff+iiMc0CGgQAfLKscB/YVWT08RwNg0MIVdf//P7FcmXGxWv+ZsKWA2gLv5AQe8ePQPN4XhgFncCAH8lvMRCAOMSwMCvXrsxtxwuWv9qtelgBdfPXejEBD4pdcRB8wHIOC3HPZ6MMC42AuUVXMNHYF8XhwiR6AqCfIIXcfIMTL7nTn/9HQ9R6D8kOQxZv6uCIQDXv7ZF4J8hC8ep5idqhwYxpw13QfKD5jC5a71q16XArqf5vXfT3FAdxTmx0kYMN/PxwHDCIQBxmVFzgNBT9s4BOwsSw7MJxgc8Bz4LcdFZ6KVqEggJSoSSImKBFKiIoGUqEggJSrrIdDVkf+blBvH5e2D8VWGHxSfTEcPjsc/q0zLugi06z70Nk/y273tmasPts7u/CGtStZKoNF+PvDMG2ImDFDKlKylQL1shBl+8LckcSPNsJNNbgd+CvOLbk0NQQtnrQTq5lOYvzXsbJ5cHW3n+z7DzkH20fvlp7nKDpEyO+sikN+JDrtAXpTMGS/KcCe/M1v85SwN7hRDlTI36yLQbuVWLlAhSjdJ3C61vz0Ih2r19ZUZkUDu/2xs8lNYJo+/XwItnPUVyE9hO+Wklonjd50HG5rC3iXrKFDarexED8JOsxPIDUAdJ5B2ohfOWgo0KA7j3c5P2O9xzmS7Qxvf+UMxHcYvmvUQaCzuROKsQUYnEhfPWgrknsqYJZDOIy6e9RQoG2JmCKQnU98h6ymQAosEUqIigZSoSCAlKhJIiYoEUqIigZSo/B8sH8iqr0pqWgAAAABJRU5ErkJggg==" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"></a>
+<a class="sourceLine" id="cb6-2" title="2"></a>
+<a class="sourceLine" id="cb6-3" title="3">p2 &lt;-<span class="st"> </span>forecast_results  <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb6-4" title="4"><span class="st">  </span>tidyr<span class="op">::</span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;Igd&quot;</span>, <span class="st">&quot;Ifwd&quot;</span>), <span class="dt">names_to =</span> <span class="st">&quot;Drive Mechanism&quot;</span>, </a>
+<a class="sourceLine" id="cb6-5" title="5">                      <span class="dt">values_to =</span> <span class="st">&quot;Fraction&quot;</span>, <span class="dt">values_drop_na =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb6-6" title="6"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="st">`</span><span class="dt">P (psia)</span><span class="st">`</span>, Fraction, <span class="dt">fill =</span> <span class="st">`</span><span class="dt">Drive Mechanism</span><span class="st">`</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-7" title="7"><span class="st">  </span><span class="kw">geom_area</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-8" title="8"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Energy Plot&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="st">  </span><span class="kw">theme_bw</span>()</a>
+<a class="sourceLine" id="cb6-10" title="10"></a>
+<a class="sourceLine" id="cb6-11" title="11">p2</a></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="example-2-dry-gas-reservoir-with-aquifer-pletcher2002a" class="section level2">
+<h2><code>Example 2: Dry Gas Reservoir with Aquifer</code> <font size="2"> <span class="citation">(Pletcher, 2002)</span> </font></h2>
+<div id="part-i-history-match-1" class="section level3">
+<h3><code>Part I: History Match</code></h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">library</span>(Rmbal)</a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="kw">library</span>(Rrelperm)</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="kw">library</span>(pracma)</a>
+<a class="sourceLine" id="cb7-4" title="4"><span class="kw">library</span>(minpack.lm)</a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb7-6" title="6"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb7-7" title="7"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb7-8" title="8"></a>
+<a class="sourceLine" id="cb7-9" title="9">p_pvt &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">6411</span>, <span class="dv">5947</span>, <span class="dv">5509</span>, <span class="dv">5093</span>, <span class="dv">4697</span>, <span class="dv">4319</span>, <span class="dv">3957</span>, <span class="dv">3610</span>, <span class="dv">3276</span>, <span class="dv">2953</span>, <span class="dv">2638</span>)</a>
+<a class="sourceLine" id="cb7-10" title="10"></a>
+<a class="sourceLine" id="cb7-11" title="11">Bg &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">6279</span>, <span class="dv">6587</span>, <span class="dv">6933</span>, <span class="dv">7327</span>, <span class="dv">7778</span>, <span class="dv">8300</span>, <span class="dv">8910</span>, <span class="dv">9628</span>, <span class="dv">10487</span>, <span class="dv">11532</span>, </a>
+<a class="sourceLine" id="cb7-12" title="12">        <span class="dv">12829</span>) <span class="op">/</span><span class="st"> </span><span class="dv">10000</span>   <span class="co"># RB/SCF</span></a>
+<a class="sourceLine" id="cb7-13" title="13"></a>
+<a class="sourceLine" id="cb7-14" title="14">Bo &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">length</span>(p_pvt))    <span class="co"># RB/STB</span></a>
+<a class="sourceLine" id="cb7-15" title="15"></a>
+<a class="sourceLine" id="cb7-16" title="16">Rv &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">length</span>(p_pvt))    <span class="co"># STB/SCF</span></a>
+<a class="sourceLine" id="cb7-17" title="17"></a>
+<a class="sourceLine" id="cb7-18" title="18">Rs &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">1e8</span>, <span class="kw">length</span>(p_pvt))  <span class="co"># SCF/STB</span></a>
+<a class="sourceLine" id="cb7-19" title="19"></a>
+<a class="sourceLine" id="cb7-20" title="20">Bw &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">1.0452</span>, <span class="fl">1.0467</span>, <span class="fl">1.0480</span>, <span class="fl">1.0493</span>, <span class="fl">1.0506</span>, <span class="fl">1.0517</span>, <span class="fl">1.0529</span>, <span class="fl">1.0540</span>, <span class="fl">1.0551</span>, </a>
+<a class="sourceLine" id="cb7-21" title="21">        <span class="fl">1.0560</span>, <span class="fl">1.0571</span>)        <span class="co"># RB/STB</span></a>
+<a class="sourceLine" id="cb7-22" title="22"></a>
+<a class="sourceLine" id="cb7-23" title="23">muo &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">0.5</span>, <span class="kw">length</span>(p_pvt))               <span class="co"># cp</span></a>
+<a class="sourceLine" id="cb7-24" title="24"></a>
+<a class="sourceLine" id="cb7-25" title="25">muw &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">0.25</span>, <span class="kw">length</span>(p_pvt))              <span class="co"># cp</span></a>
+<a class="sourceLine" id="cb7-26" title="26"></a>
+<a class="sourceLine" id="cb7-27" title="27">mug &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">0.025</span>, <span class="kw">length</span>(p_pvt))             <span class="co"># cp</span></a>
+<a class="sourceLine" id="cb7-28" title="28"></a>
+<a class="sourceLine" id="cb7-29" title="29">pvt_table &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">p =</span> p_pvt, <span class="dt">Bo =</span> Bo, <span class="dt">Rs =</span> Rs, <span class="dt">Rv =</span> Rv, <span class="dt">Bg =</span> Bg,</a>
+<a class="sourceLine" id="cb7-30" title="30">                             <span class="dt">Bw =</span> Bw, <span class="dt">muo =</span> muo, <span class="dt">mug =</span> mug, <span class="dt">muw =</span> muw)</a>
+<a class="sourceLine" id="cb7-31" title="31"></a>
+<a class="sourceLine" id="cb7-32" title="32">p &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">6411</span>, <span class="dv">5947</span>, <span class="dv">5509</span>, <span class="dv">5093</span>, <span class="dv">4697</span>, <span class="dv">4319</span>, <span class="dv">3957</span>, <span class="dv">3610</span>, <span class="dv">3276</span>, <span class="dv">2953</span>, <span class="dv">2638</span>)   <span class="co"># psia</span></a>
+<a class="sourceLine" id="cb7-33" title="33"></a>
+<a class="sourceLine" id="cb7-34" title="34">Np &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="dt">length.out =</span> <span class="kw">length</span>(p))</a>
+<a class="sourceLine" id="cb7-35" title="35"></a>
+<a class="sourceLine" id="cb7-36" title="36">Gp &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="fl">5.475</span>, <span class="fl">10.950</span>, <span class="fl">16.425</span>, <span class="fl">21.900</span>, <span class="fl">27.375</span>, <span class="fl">32.850</span>, <span class="fl">38.325</span>, <span class="fl">43.800</span>, <span class="fl">49.275</span>, </a>
+<a class="sourceLine" id="cb7-37" title="37">        <span class="fl">54.750</span>) <span class="op">*</span><span class="st"> </span><span class="fl">1e9</span>                                                      <span class="co"># SCF</span></a>
+<a class="sourceLine" id="cb7-38" title="38"></a>
+<a class="sourceLine" id="cb7-39" title="39">Wp &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">378</span>, <span class="dv">1434</span>, <span class="dv">3056</span>, <span class="dv">5284</span>, <span class="dv">8183</span>, <span class="dv">11864</span>, <span class="dv">16425</span>, <span class="dv">22019</span>, <span class="dv">28860</span>, <span class="dv">37256</span>) <span class="co"># STB</span></a>
+<a class="sourceLine" id="cb7-40" title="40"></a>
+<a class="sourceLine" id="cb7-41" title="41">Wi &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="dt">length.out =</span> <span class="kw">length</span>(p))</a>
+<a class="sourceLine" id="cb7-42" title="42"></a>
+<a class="sourceLine" id="cb7-43" title="43">wf &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>, <span class="dt">length.out =</span> <span class="kw">length</span>(p))</a>
+<a class="sourceLine" id="cb7-44" title="44"></a>
+<a class="sourceLine" id="cb7-45" title="45">mbal_optim_gas_lst &lt;-<span class="st"> </span><span class="kw">mbal_optim_param_gas</span>(<span class="dt">input_unit =</span> <span class="st">&quot;Field&quot;</span>, <span class="dt">output_unit =</span> <span class="st">&quot;Field&quot;</span>,  </a>
+<a class="sourceLine" id="cb7-46" title="46">                                          <span class="dt">unknown_param =</span> <span class="st">&quot;We&quot;</span>, <span class="dt">aquifer_model =</span> <span class="st">&quot;pot&quot;</span>, </a>
+<a class="sourceLine" id="cb7-47" title="47">                                          <span class="dt">G =</span> <span class="fl">101e9</span>, <span class="dt">phi =</span> <span class="fl">0.15</span>, <span class="dt">swi =</span> <span class="fl">0.15</span>, </a>
+<a class="sourceLine" id="cb7-48" title="48">                                          <span class="dt">Np =</span> Np, <span class="dt">Gp =</span> Gp, <span class="dt">Wp =</span> Wp, <span class="dt">Wi =</span> Wi, </a>
+<a class="sourceLine" id="cb7-49" title="49">                                          <span class="dt">We =</span> <span class="ot">NULL</span>, <span class="dt">pd =</span> <span class="dv">0</span>, <span class="dt">p =</span> p, <span class="dt">pvt =</span> pvt_table, </a>
+<a class="sourceLine" id="cb7-50" title="50">                                          <span class="dt">M =</span> <span class="dv">0</span>, <span class="dt">cf =</span> <span class="fl">6e-6</span>, <span class="dt">wf =</span> wf, <span class="dt">sgrw =</span> <span class="fl">0.0</span>, </a>
+<a class="sourceLine" id="cb7-51" title="51">                                          <span class="dt">phi_a =</span> <span class="fl">0.15</span>, <span class="dt">h_a =</span> <span class="dv">200</span>, <span class="dt">r_a =</span> <span class="dv">500</span>, </a>
+<a class="sourceLine" id="cb7-52" title="52">                                          <span class="dt">r_R =</span> <span class="fl">210.6</span>, <span class="dt">tetha =</span> <span class="dv">360</span>, <span class="dt">cw_a =</span> <span class="fl">3e-6</span>, </a>
+<a class="sourceLine" id="cb7-53" title="53">                                          <span class="dt">cf_a =</span> <span class="fl">6e-6</span>, <span class="dt">mult_len =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb7-54" title="54"></a>
+<a class="sourceLine" id="cb7-55" title="55">time_lst &lt;-<span class="st"> </span><span class="kw">mbal_time</span>(<span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(p)), <span class="st">&quot;year&quot;</span>)</a>
+<a class="sourceLine" id="cb7-56" title="56"></a>
+<a class="sourceLine" id="cb7-57" title="57"><span class="co"># a number of plots will be automatically generated for quality check</span></a>
+<a class="sourceLine" id="cb7-58" title="58"></a>
+<a class="sourceLine" id="cb7-59" title="59">optim_results &lt;-<span class="st"> </span><span class="kw">mbal_optim_gas</span>(mbal_optim_gas_lst, time_lst)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkAAAAGACAMAAAByRC0tAAAAn1BMVEUAAAAAADoAAGYAAP8AOjoAOpAAZrY6AAA6ADo6AGY6Ojo6OmY6OpA6ZrY6kNtmAABmADpmAGZmOjpmOmZmOpBmZmZmZpBmkJBmkLZmtrZmtv+QOgCQOjqQZgCQZmaQkGaQkLaQkNuQtpCQ2/+2ZgC2kDq2kJC22/+2/7a2///bkDrbkGbb27bb2//b////tmb/25D/27b//7b//9v///9+cchzAAAACXBIWXMAAA7DAAAOwwHHb6hkAAATPklEQVR4nO2daWPjthGGubu1tW1TOb0bO2naLpsmTGsqEv//bysHBw+JJwY33+eDzdXKHFl8DAyGEFA0ADAoQr8AkDYQCLCAQIAFBAIsIBBgAYEACwgEWEAgwAICARYQCLCAQIAFBAIsIBBgAYEACwgEWEAgwAICARYQCLCAQIAFBAIsIBBgAYEACwgEWEAgwAICARYQCLCAQIAFBAIsIBBgAYEACwgEWEAgwAICARYQCLCAQIAFBAIsIBBgAYEACwgEWEAgwAICARYQCLCAQIAFBAIsIBBgAYEACwgEWEAgwAICARYQCLCAQIAFBAIsIBBgAYEACwgEWEAgwAICARYQCLCAQIAFBAIsIBBgAYEAi0wFur687v2Ry69/0od1UXz4Mj5dURQff5LfC3FcygMRRh0XT++3N3l0bprB4ZaYdJqn9/ZrdR88biBQ9xMf9cWs2wtYDy9iLTwp5UOXz+KbvNqX03N3TNzenvUPDA43xBTPpNNQlMtpt/7BgECSWrQwgtsbNRrlc/+f8lgZMRJIivYgEH0bHK7HFC+ZBLq+UPCqO2H05CbQ5ST6FSFQLTuQy+d/nVRPUs11KXVxrvXFlH//VX9txw6MBRL/9yAQPTI4nH6pw5gU8Om79pmy5avT6cQyE0hc/LbXIIFqIdIzOSX/0VSiezirZ4oMpb9SvUDCkOG1rYuBQWOBxPctLdBDvFFMcdqyF2ih34uMzATSV6QVSPZE7QWRyrS9guwehmZM/ehUI0BXf+xXJw21VDqJPmtdqj4HqpZc6F8LvVo6pWr+IFAgdFraCiQvRftVHrRCSCfmMtQlgRoxqJpIopVAgxaoG5wNDmfpBap0QyaTaAgUCnHZXnuB6OCzEqIuli7pQhemKMVD612YHJoNDmcZx5SnaZuzjz9+jRwoIO0f8agF6gS675VmcqD7JFq3WaoFW0+ia1kH6g4n441iVmO3x/WhqMlRoNaexxyopBxoU3fyMIzXeXA90QJND+OpHxocrsdsBqdsMIwPh7ietWiBBqMwKgzqUdjsFa2XCol0QVVjcldIPDcTAl1fumE8Hc6/3AeB6AWnNIrPTSBR+2nf/lEd6PTXk+ocqmJUuxv/JP2HvOoPdxPELQz1kBZo4lbGhy+6saqK8+Bw/tX2MRvlIYVKyJ/sBJogpRsD6QGBAAsIBFhYFqgAmRBKILunA0Fo9YFAwBTR+kAgYIbqvCAQMKHLfSAQ2IFMmoepMwQC2yk+ffp0N/CCQGAzE/5AILCdotWnVWj82OYftvxa7J4O+ID0gUDADOq7igd/IBDYhK76PNy6cCSQnig+N6cGAiXFwh0vNwJ1c6PquUlSECgdFm+YOhFIThYWzE3ahUCpsHK/3YlAg0npc5/Og0BJsD5dAy0QmGXLZB9XOZBqgpADpcu2uWKORmF6gaXZT6pAoMjZOtUQdSAwgYOZqhDoMOyY6IxCIrhnjz0NColgzE59MIwHQ3brg0Ii6DHQBy0QUOzKnIc/Z/2JBAqJiWFoT4NCImg4+qAOdGCKbpIY6yzWn7h8lt2fyQeOUNNTuVcChcSDIufH8/+QUUg8KPT5nOJ+hrzJeaw/sYl/GB90nZxIKIqJj1iYnMf6E5v4C4mpXWwH2PJnr0DdRmpL+U38LVDI4DHwsEQC41T7nyjzmsUliiMvJB5cIKvd7X6BumWNlxZJj7uQeGSBbGdr+wXSCc5cdmM5rguOK5D9XN+kBZK90uwGe3bjusBqcCp5Le60Ew8uhopGOZDYpGZxmX3a8Ii2nZl9UmwC3X7Y3Z7+8jfxF1TRnoMpLDDtptJgMowXCc5i+yP8oa0iZve9CSnQROxf/mLQnF7/3O0Ct7Rldxy4KlQ5qgOd9TZIMQ7jH2Nf/2iUz12+kr/c9feR79rlsM7prJCoUqUYC4lFd6tO97GlYRIjf+4a+baBTqvkhl3Y03u51GrTG1vF3ALpLVN/+XZpd9RVRDFMbesUK45vspgk0R++dDsbz0DXRzRBs+XG0F3Y5STN/pleX6V2GOy2jR8x93gj++q4d510fo/ObBhP7Uq1WAdS+9bOdg2hBRrucnt7U5sK6m3jx8w9rn5SbCIXaRLt4RavWSGRBEq3kChj93dZ1GaT3bbxd0+fe7whgVhvglv8zBAwb4HSLSSq2N0NO9UYddvG3z197vGG3otoN530Nb/EOAeqeFveRyDQ9Q/q4muB9K7fTb+56fPd43dEK5C/6UnGhUTmOxeBQD/rvwDdhc2IMvn49U/0I5F2YT5ntx3xUxkqB/qd/neXRI935tZMPi5riOon48Lv5EiDJFqVzRJPonUVmVDD+G7b+DH94zX1aVSEPLdf5Nbb8Qy/CouzxPaE3f1ELdDyMN5aXAdQbH3z4vrPRqfJg23jR3SPk3Pla/1Mty6kf4uz6vwytRGKl7g7n6izS27tI7BAt2/llb/9W/wW4pbEXD26e1zUts6XE6XWUiDTWyD2CeUPowXyFNcBxfDvQMghBmTrAj3rB4pXIdDlt9Gk0FMb6fgJbP2JNk8nxnttV9nN5f/4Uzm47lqDp3d9d/Tcf6ZxvoGciE092qpA7XDs9vZK9/jKMwl0+3s0/kxupOMn8P4n6qvpPgeSGW0pEw11z7JUI6bnZjgyUhO16QcGhztC3374z5bXQ71XSca2Q////iOWEVgxvZGOn9j7n9hetvav0PgO9o64MsVQRowEkunrg0D0bXDICJ0Qsxvp+Im++4k0dK3pZqrzWxljB8YCif97EIgeGRxOx81LoNAfiTW7mUpTGHjTGDZ2YQODxgKJ77tbIPFXmpNAofUxvZlKIzEPAol5+TrVuhOIylA6iT5rXao+B5q6V1dk1gKF18coBxKX7uyhCxO0g6qJJFq9ikEL1A3OBofi+YPbok0n0NwKCeYw3gszAuU895gM49vcth2J8W4j7vnlSzVhcK0Lk0OzweF03Cjedy5x2NM4qwNZWWBKD/TkDYMNSXQt60Dd4XTcWN56BtHo40ogOwtM6Ty4nmiBpofxVDIaHIrv4y6sDRzPm29IRPo4KiTaWt6lFre8lYR3hcTxFAtlDc3sGRxOB47p7TcgKn3MRmGr2bO1BaaGU9e0QIMUWbcuH750S4bQTIvucDpwXBdgH5FkzgPM6kArxLzAVMoCRWdPY1oHWiPiBabSFShGfYxyoC2fxIx3gSlDgcSwMuT0wzj1MRPotJZE24xrGzOBxMcvqnDrAMWqj1kXZuNtTEwgWZLizeI1Jr7MeYCTJDrmlepXLsb15ZuXqYnRAr9ToJU3MdvTuEuio12pflUg6qtmRCl9tkByhljk+jhKoqMexq8JdJ6dHT371+ACtZeFv4CGmHRhxVoSHfVK9WsCvc710rXXHNrWXhaucXIvLOYWaLtAd3fRvLY/jb29CBzj6mZqtIVE0xZo5s6IIwLOkt+Jo+kc8RYSDQViLkayDz38SsCfvQK1OeaGHMhmXOsYCSTv/vshCW86HLVAs2cJNwW0ewmL/zsjUKVv+7t7XYq09DEahW1ZnSPeQmLUpNFrjTAXaKmuH3EhMWLSs6fZL9Cm1TmiHsbHSpL6cFqgBaIuJMZJovocsZAYI8nqYzip/kyjkqWZ0TEXEqMjwcx5gIFA5dM7fW5vcXWuiAuJkZG0PY3pfCBafCfdRTYjInV9TAWiiTHpLrIZDenrY9aFPdOH9q4v812YXP22RiFxkRz0Mf1kav9JvkmEQJVcSDnCLS9jIO3MeYCTYTwJpNTBMH5EGvOc9+BMIDUtFIXEIYnMc96DiUCrW16iBZomlXnOezAQaH3LS1kFem4WNpPI613cSCrznPdg9rGe9S0vRaa9MI84r3dxI6nMc96DWR0o7S0vA5HOPOc9mLdA6W55GYSU5jnvwTgHSnjLywBk502H4Sgs6S0vvZOvPt4n1bs6XcTk12uNYAmkt21zGTdx8rangUBuyV4fCOSSA+gDgdxxCH0gkCsOog8EckLmA68REMg6B7KngUDWOZY+EMgyR9MHlWgr6JznePo4mpFoM24C6ImqOf1Om3EyI9Fm3PjJcaLqdhzNSDzSAlM5TlTdjpsZiYdaYCrHiarbcTIj8VDLuxzbHzczEo+zwJTMnA+aPwuczEg8Sgt0YG863NSBDrHAFPQhzHKgVfJfYAr6SMxGYR7jxgn00Zgk0Ta2XUv5Ahw5Z37ApAXasFdGxoVE2DPCVRKdayER+tzhRKBsh/HQ5wEnXVimhUToM4FxC7SUSufYAiFznsa8C1taaDy7QiLsmcNcoMXRfF6FROgzj7lA+S80nt+Sqg4wFmhpofGFs4Tf8nIzGS6p6gDzUdjiAmUZFBKFP9BnDRQS5yhooupxJ4ptBYXEOQo5WT70y4gdA4HWN5zLoJCY55KqDjAQaH3DueRboFyXVHWA2XygtQ3nki4kwps9mAm0uuFcuoVE2LMPky5sdcM5m3H9An32YpREr204ZzOuT6DPfpyuzqH2DLN1OsdAHxOcCNRNGZqvRcd2sZA5G+KkDqQHX8m0QLDHGCd1IJKM/EpEIOjDwE0dqKX88CUNgaAPC0d1oEbcUE1AIOjDxGEd6HL6VaQC9WsaQh8uLutAt7f5JWBCXjl1lxT22MBpHcjf6XaF/nToRQ0tc1CB0HnZwkSgxJf5xVRDm5iszpH2Mr8HX9PQNvsF2rTMr724ljn8moa2MasDrS3zazGuVSCOdcxboIVlfm3GtQj0cYBxDrS0zK/NuNaAPk4wHIUtL/NrM64dkPW44hB1INjjDrMcyGNcC6Ggj0PMRmEe47IDQR+nmCTRCS3zC31cY746x+Iyv/bicmJAH/fkm0TDHi84EijY+kBH3v82CLsFqtpLtJpFB1sfCHPFfLNXoGp5rrwk2OocmCvmnZ0CSTXmrNAEWx9I7H8Lf3yyUyCpxtpAPlwLhLk+vnEiUKj1geCPf9wIFGR9IMwVC4EjgezF3XxCiBOEPARCuxOM3QKtLtwi8FpIhD0BcVOJ9llIhD5BcSKQx2E89AmME4G8FRKhT3BSboGgTwS4yoGcFxIx8IoDR9M5XBcSYU8sJDmhDPrEg2eBODsWYq5YjKQzIxFzxaIkmUKi3P4N+sRGMsN4MVcMUzWiI5lCIub6xEkqLRD8iZQ0ComYKxYtCRQSIU7MRF9IhD1xE7lA0Cd2XApUL6xjtul00Cd+HAlUFsX58tX7/GJCG04HfVLAjUC0gmspWh/TYTwy50RwV0i8fCaBzAqJsCcZHAlE1Z/b/xqzFgj6JISjQqJud2Z31Jg/HfRJCkdJdCWHX/XsUkL3p8Nkn0SJpA4kb3Qhc06POAQqsC5UqkQjECb7pEkkAmGyRqpEIRD8SZfwAhWY7JMyoQWCN4kTViDokzwhBYI+GRBOIOiTBcEEApkQSCBzfL8QxEsrziq5vsG5x4NAiJdEnFVyfYNzjweBEC+JOKvk+gbnHg8CIV4ScVbJ9Q3OPR4EQrwk4oBMgUCABQQCLCAQYAGBAAsIBFhAIMACAgEWEAiwgECABQQCLCAQYAGBAItgAlV6tel6/sAypVjY0U88uSnEs7d4zeUkw3l8PwWhBKLlFmv6tejLzIFlarHFh6d4cjHbxlu8+olW7372+X5KAgkkVum8vT2rLaTKqQPrIUkgX/H0Osie4smTtn+V/t5PRcgciAS6nGi9zvY3fzywHK16+q4VyFe8Sl0wT/G6Bs/f+6kIKRCt+dqtW/54YDdYe1rKgXzFK3/TpkDnxle8+uOPLz7j9YQTqBa/sOyc26+PB1ajUUNOAnmKd32hfKs8+4pX0Uba1KL7ej87wnZhT+++fmFaWt+jQJL2z96XQB++eI3XE7QO1P5WnppccVKfXZiMenr1FE+mOP7i9QQViH5hP0lfpRYt8RVP0l47T/GkH/7i9QQSSP5Wtd9hZ+lvGO/795MbuHl+PwWhWqDuYnosfJUeC4nigpX+fr8qwPspCNaFldSh0EF3T+PxwHZIcSvDUzzfv18tywY+308BbqYCFhAIsIBAgAUEAiwgEGABgQALCARYQCDAAgIBFhAIsIBAgAUEAiwgEGABgQALCARYQCDAAgIBFhAIsIBAgAUEAiwgEGABgQALCARYQCDAAgIBFhAIsIBAgAUEmqCUa8G4WtAiKyDQBHIVBrlMHVgGAk0gBXK4JkpGQKAJlECX0+v16+9p+cpKrZ1Cy8HToi3qu1jWqf1y96xDAYEm6Fsg2Y2J9YhPZ7nuWK3WyWu/dwKNnnUsINAEOgd6livqiy9iCVS10KD+3gs0fFawlx0ECDSBGoWdlSIyF6IO7UXq0X/XAg2fFfKV+wcCTVB2wy+phl7itbm9yRxIfR8L1D3rUECgCe4FGo3GSvWvkjKkhxbocECgCe4EkmvoNsOHmj73EV3bw7MOAwSa4E4guZFAqXYNqPvvtFdD25u9jp8V8IUHAAJNcC+QqPBQ3kx5jpBHfad9Cb9RXVj/rEMBgQALCARYQCDAAgIBFhAIsIBAgAUEAiwgEGABgQALCARYQCDAAgIBFhAIsIBAgAUEAiwgEGABgQALCARYQCDAAgIBFhAIsIBAgAUEAiwgEGDxf+hjeu/HaU70AAAAAElFTkSuQmCC" style="display: block; margin: auto;" /><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"></a>
+<a class="sourceLine" id="cb8-2" title="2"><span class="kw">glimpse</span>(optim_results)</a>
+<a class="sourceLine" id="cb8-3" title="3"><span class="co">#&gt; List of 17</span></a>
+<a class="sourceLine" id="cb8-4" title="4"><span class="co">#&gt;  $ input_unit : chr &quot;Field&quot;</span></a>
+<a class="sourceLine" id="cb8-5" title="5"><span class="co">#&gt;  $ output_unit: chr &quot;Field&quot;</span></a>
+<a class="sourceLine" id="cb8-6" title="6"><span class="co">#&gt;  $ G          : num 1.01e+11</span></a>
+<a class="sourceLine" id="cb8-7" title="7"><span class="co">#&gt;  $ phi        : num 0.15</span></a>
+<a class="sourceLine" id="cb8-8" title="8"><span class="co">#&gt;  $ swi        : num 0.15</span></a>
+<a class="sourceLine" id="cb8-9" title="9"><span class="co">#&gt;  $ pd         : num 0</span></a>
+<a class="sourceLine" id="cb8-10" title="10"><span class="co">#&gt;  $ p          : num [1:11] 6411 5947 5509 5093 4697 ...</span></a>
+<a class="sourceLine" id="cb8-11" title="11"><span class="co">#&gt;  $ cf         : num [1:11] 6e-06 6e-06 6e-06 6e-06 6e-06 6e-06 6e-06 6e-06 6e-06 6e-06 ...</span></a>
+<a class="sourceLine" id="cb8-12" title="12"><span class="co">#&gt;  $ M          : num 0</span></a>
+<a class="sourceLine" id="cb8-13" title="13"><span class="co">#&gt;  $ pvt        :&#39;data.frame&#39;: 11 obs. of  9 variables:</span></a>
+<a class="sourceLine" id="cb8-14" title="14"><span class="co">#&gt;   ..$ p  : num [1:11] 6411 5947 5509 5093 4697 ...</span></a>
+<a class="sourceLine" id="cb8-15" title="15"><span class="co">#&gt;   ..$ Bo : num [1:11] 0 0 0 0 0 0 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb8-16" title="16"><span class="co">#&gt;   ..$ Rs : num [1:11] 1e+08 1e+08 1e+08 1e+08 1e+08 1e+08 1e+08 1e+08 1e+08 1e+08 ...</span></a>
+<a class="sourceLine" id="cb8-17" title="17"><span class="co">#&gt;   ..$ Rv : num [1:11] 0 0 0 0 0 0 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb8-18" title="18"><span class="co">#&gt;   ..$ Bg : num [1:11] 0.628 0.659 0.693 0.733 0.778 ...</span></a>
+<a class="sourceLine" id="cb8-19" title="19"><span class="co">#&gt;   ..$ Bw : num [1:11] 1.05 1.05 1.05 1.05 1.05 ...</span></a>
+<a class="sourceLine" id="cb8-20" title="20"><span class="co">#&gt;   ..$ muo: num [1:11] 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 ...</span></a>
+<a class="sourceLine" id="cb8-21" title="21"><span class="co">#&gt;   ..$ mug: num [1:11] 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 0.025 ...</span></a>
+<a class="sourceLine" id="cb8-22" title="22"><span class="co">#&gt;   ..$ muw: num [1:11] 0.25 0.25 0.25 0.25 0.25 0.25 0.25 0.25 0.25 0.25 ...</span></a>
+<a class="sourceLine" id="cb8-23" title="23"><span class="co">#&gt;  $ prod       :&#39;data.frame&#39;: 11 obs. of  3 variables:</span></a>
+<a class="sourceLine" id="cb8-24" title="24"><span class="co">#&gt;   ..$ Np: num [1:11] 0 0 0 0 0 0 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb8-25" title="25"><span class="co">#&gt;   ..$ Gp: num [1:11] 0.00 5.48e+09 1.10e+10 1.64e+10 2.19e+10 ...</span></a>
+<a class="sourceLine" id="cb8-26" title="26"><span class="co">#&gt;   ..$ Wp: num [1:11] 0 378 1434 3056 5284 ...</span></a>
+<a class="sourceLine" id="cb8-27" title="27"><span class="co">#&gt;  $ inj        :&#39;data.frame&#39;: 11 obs. of  1 variable:</span></a>
+<a class="sourceLine" id="cb8-28" title="28"><span class="co">#&gt;   ..$ Wi: num [1:11] 0 0 0 0 0 0 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb8-29" title="29"><span class="co">#&gt;  $ We         : NULL</span></a>
+<a class="sourceLine" id="cb8-30" title="30"><span class="co">#&gt;  $ aquifer    :List of 12</span></a>
+<a class="sourceLine" id="cb8-31" title="31"><span class="co">#&gt;   ..$ input_unit : chr &quot;Field&quot;</span></a>
+<a class="sourceLine" id="cb8-32" title="32"><span class="co">#&gt;   ..$ output_unit: chr &quot;Field&quot;</span></a>
+<a class="sourceLine" id="cb8-33" title="33"><span class="co">#&gt;   ..$ model      : chr &quot;pot&quot;</span></a>
+<a class="sourceLine" id="cb8-34" title="34"><span class="co">#&gt;   ..$ phi        : num 0.15</span></a>
+<a class="sourceLine" id="cb8-35" title="35"><span class="co">#&gt;   ..$ h_a        : num 200</span></a>
+<a class="sourceLine" id="cb8-36" title="36"><span class="co">#&gt;   ..$ r_a        : num 63512</span></a>
+<a class="sourceLine" id="cb8-37" title="37"><span class="co">#&gt;   ..$ r_R        : num 211</span></a>
+<a class="sourceLine" id="cb8-38" title="38"><span class="co">#&gt;   ..$ tetha      : num 360</span></a>
+<a class="sourceLine" id="cb8-39" title="39"><span class="co">#&gt;   ..$ c_water    : num 3e-06</span></a>
+<a class="sourceLine" id="cb8-40" title="40"><span class="co">#&gt;   ..$ c_rock     : num 6e-06</span></a>
+<a class="sourceLine" id="cb8-41" title="41"><span class="co">#&gt;   ..$ pressure   : num [1:11] 6411 5947 5509 5093 4697 ...</span></a>
+<a class="sourceLine" id="cb8-42" title="42"><span class="co">#&gt;   ..$ mult_len   : num 1</span></a>
+<a class="sourceLine" id="cb8-43" title="43"><span class="co">#&gt;   ..- attr(*, &quot;class&quot;)= chr [1:2] &quot;pot&quot; &quot;aquifer&quot;</span></a>
+<a class="sourceLine" id="cb8-44" title="44"><span class="co">#&gt;  $ wf         : num [1:11] 1 1 1 1 1 1 1 1 1 1 ...</span></a>
+<a class="sourceLine" id="cb8-45" title="45"><span class="co">#&gt;  $ sgrw       : num 0</span></a>
+<a class="sourceLine" id="cb8-46" title="46"><span class="co">#&gt;  $ p_est      : num [1:11] 6411 5949 5509 5092 4695 ...</span></a>
+<a class="sourceLine" id="cb8-47" title="47"><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:2] &quot;water_drive_gas&quot; &quot;mbal_gas&quot;</span></a></code></pre></div>
+<div id="part-ii-reservoir-performance-1" class="section level4">
+<h4><code>Part II: Reservoir Performance</code></h4>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"></a>
+<a class="sourceLine" id="cb9-2" title="2">mbal_results &lt;-<span class="st"> </span><span class="kw">mbal_perform_gas</span>(optim_results, time_lst)</a>
+<a class="sourceLine" id="cb9-3" title="3"></a>
+<a class="sourceLine" id="cb9-4" title="4">mbal_results</a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="co">#&gt;    P (psia) Eo (bbl/STB) Eg (bbl/SCF) Ew (bbl/STB) Ef (bbl/bbl) Egwf (bbl/SCF)</span></a>
+<a class="sourceLine" id="cb9-6" title="6"><span class="co">#&gt; 1      6411            0       0.0000       0.0000     0.000000     0.00000000</span></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co">#&gt; 2      5947            0       0.0308       0.0015     0.002784     0.03301558</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="co">#&gt; 3      5509            0       0.0654       0.0028     0.005412     0.06969472</span></a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="co">#&gt; 4      5093            0       0.1048       0.0041     0.007908     0.11107634</span></a>
+<a class="sourceLine" id="cb9-10" title="10"><span class="co">#&gt; 5      4697            0       0.1499       0.0054     0.010284     0.15806933</span></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co">#&gt; 6      4319            0       0.2021       0.0065     0.012552     0.21206133</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="co">#&gt; 7      3957            0       0.2631       0.0077     0.014724     0.27479301</span></a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="co">#&gt; 8      3610            0       0.3349       0.0088     0.016806     0.34824761</span></a>
+<a class="sourceLine" id="cb9-14" title="14"><span class="co">#&gt; 9      3276            0       0.4208       0.0099     0.018810     0.43574460</span></a>
+<a class="sourceLine" id="cb9-15" title="15"><span class="co">#&gt; 10     2953            0       0.5253       0.0108     0.020748     0.54177162</span></a>
+<a class="sourceLine" id="cb9-16" title="16"><span class="co">#&gt; 11     2638            0       0.6550       0.0119     0.022638     0.67298439</span></a>
+<a class="sourceLine" id="cb9-17" title="17"><span class="co">#&gt;       Et (bbl)     F (bbl)         We       Igd       Inwd       Ifwd</span></a>
+<a class="sourceLine" id="cb9-18" title="18"><span class="co">#&gt; 1            0           0          0        NA         NA         NA</span></a>
+<a class="sourceLine" id="cb9-19" title="19"><span class="co">#&gt; 2   3617316708  3606382896  282743700 0.8599745 0.07816393 0.06186171</span></a>
+<a class="sourceLine" id="cb9-20" title="20"><span class="co">#&gt; 3   7588808773  7591636503  549644004 0.8704133 0.07242823 0.05715868</span></a>
+<a class="sourceLine" id="cb9-21" title="21"><span class="co">#&gt; 4  12021845864 12034600707  803138356 0.8804638 0.06680658 0.05272990</span></a>
+<a class="sourceLine" id="cb9-22" title="22"><span class="co">#&gt; 5  17009441970 17033825551 1044445479 0.8900880 0.06140387 0.04850847</span></a>
+<a class="sourceLine" id="cb9-23" title="23"><span class="co">#&gt; 6  22692969573 22721258606 1274784097 0.8994900 0.05617529 0.04433506</span></a>
+<a class="sourceLine" id="cb9-24" title="24"><span class="co">#&gt; 7  29249454812 29269362492 1495372932 0.9084990 0.05112481 0.04037663</span></a>
+<a class="sourceLine" id="cb9-25" title="25"><span class="co">#&gt; 8  36879813117 36899327312 1706821346 0.9171657 0.04628064 0.03655412</span></a>
+<a class="sourceLine" id="cb9-26" title="26"><span class="co">#&gt; 9  45920529098 45933083232 1910348062 0.9255294 0.04160118 0.03286992</span></a>
+<a class="sourceLine" id="cb9-27" title="27"><span class="co">#&gt; 10 56826075082 56823960476 2107171801 0.9336436 0.03708107 0.02927589</span></a>
+<a class="sourceLine" id="cb9-28" title="28"><span class="co">#&gt; 11 70270504750 70238814383 2299120650 0.9414334 0.03271815 0.02584902</span></a>
+<a class="sourceLine" id="cb9-29" title="29"><span class="co">#&gt;             Iawd Itot     RF_oil     RF_gas SOg  SGg  SWg SOT       SGT</span></a>
+<a class="sourceLine" id="cb9-30" title="30"><span class="co">#&gt; 1             NA   NA 0.00000000 0.00000000   0 0.85 0.15   0 0.8500000</span></a>
+<a class="sourceLine" id="cb9-31" title="31"><span class="co">#&gt; 2  -1.093774e-07    1 0.05437227 0.05437227   0 0.85 0.15   0 0.8462103</span></a>
+<a class="sourceLine" id="cb9-32" title="32"><span class="co">#&gt; 3  -1.980327e-07    1 0.10837548 0.10837548   0 0.85 0.15   0 0.8426331</span></a>
+<a class="sourceLine" id="cb9-33" title="33"><span class="co">#&gt; 4  -2.667361e-07    1 0.16245145 0.16245145   0 0.85 0.15   0 0.8392355</span></a>
+<a class="sourceLine" id="cb9-34" title="34"><span class="co">#&gt; 5  -3.263699e-07    1 0.21652136 0.21652136   0 0.85 0.15   0 0.8360012</span></a>
+<a class="sourceLine" id="cb9-35" title="35"><span class="co">#&gt; 6  -3.792391e-07    1 0.27070225 0.27070225   0 0.85 0.15   0 0.8329140</span></a>
+<a class="sourceLine" id="cb9-36" title="36"><span class="co">#&gt; 7  -4.270714e-07    1 0.32502645 0.32502645   0 0.85 0.15   0 0.8299575</span></a>
+<a class="sourceLine" id="cb9-37" title="37"><span class="co">#&gt; 8  -4.694153e-07    1 0.37925495 0.37925495   0 0.85 0.15   0 0.8271234</span></a>
+<a class="sourceLine" id="cb9-38" title="38"><span class="co">#&gt; 9  -5.059229e-07    1 0.43354506 0.43354506   0 0.85 0.15   0 0.8243956</span></a>
+<a class="sourceLine" id="cb9-39" title="39"><span class="co">#&gt; 10 -5.363059e-07    1 0.48788970 0.48788970   0 0.85 0.15   0 0.8217577</span></a>
+<a class="sourceLine" id="cb9-40" title="40"><span class="co">#&gt; 11 -5.604530e-07    1 0.54232409 0.54232409   0 0.85 0.15   0 0.8191851</span></a>
+<a class="sourceLine" id="cb9-41" title="41"><span class="co">#&gt;          SWT qo (STB/day) qg (SCF/day) qw (STB/day) fo           fw</span></a>
+<a class="sourceLine" id="cb9-42" title="42"><span class="co">#&gt; 1  0.1500000            0      0.0e+00     0.000000  0 0.000000e+00</span></a>
+<a class="sourceLine" id="cb9-43" title="43"><span class="co">#&gt; 2  0.1537897            0      1.5e+07     1.035616  0 1.097090e-07</span></a>
+<a class="sourceLine" id="cb9-44" title="44"><span class="co">#&gt; 3  0.1573669            0      1.5e+07     2.893151  0 2.915545e-07</span></a>
+<a class="sourceLine" id="cb9-45" title="45"><span class="co">#&gt; 4  0.1607645            0      1.5e+07     4.443836  0 4.242678e-07</span></a>
+<a class="sourceLine" id="cb9-46" title="46"><span class="co">#&gt; 5  0.1639988            0      1.5e+07     6.104110  0 5.496678e-07</span></a>
+<a class="sourceLine" id="cb9-47" title="47"><span class="co">#&gt; 6  0.1670860            0      1.5e+07     7.942466  0 6.709306e-07</span></a>
+<a class="sourceLine" id="cb9-48" title="48"><span class="co">#&gt; 7  0.1700425            0      1.5e+07    10.084932  0 7.944943e-07</span></a>
+<a class="sourceLine" id="cb9-49" title="49"><span class="co">#&gt; 8  0.1728766            0      1.5e+07    12.495890  0 9.119690e-07</span></a>
+<a class="sourceLine" id="cb9-50" title="50"><span class="co">#&gt; 9  0.1756044            0      1.5e+07    15.326027  0 1.027970e-06</span></a>
+<a class="sourceLine" id="cb9-51" title="51"><span class="co">#&gt; 10 0.1782423            0      1.5e+07    18.742466  0 1.144180e-06</span></a>
+<a class="sourceLine" id="cb9-52" title="52"><span class="co">#&gt; 11 0.1808149            0      1.5e+07    23.002740  0 1.263604e-06</span></a>
+<a class="sourceLine" id="cb9-53" title="53"><span class="co">#&gt;    GOR (SCF/STB) kro/krg</span></a>
+<a class="sourceLine" id="cb9-54" title="54"><span class="co">#&gt; 1            Inf       0</span></a>
+<a class="sourceLine" id="cb9-55" title="55"><span class="co">#&gt; 2            Inf       0</span></a>
+<a class="sourceLine" id="cb9-56" title="56"><span class="co">#&gt; 3            Inf       0</span></a>
+<a class="sourceLine" id="cb9-57" title="57"><span class="co">#&gt; 4            Inf       0</span></a>
+<a class="sourceLine" id="cb9-58" title="58"><span class="co">#&gt; 5            Inf       0</span></a>
+<a class="sourceLine" id="cb9-59" title="59"><span class="co">#&gt; 6            Inf       0</span></a>
+<a class="sourceLine" id="cb9-60" title="60"><span class="co">#&gt; 7            Inf       0</span></a>
+<a class="sourceLine" id="cb9-61" title="61"><span class="co">#&gt; 8            Inf       0</span></a>
+<a class="sourceLine" id="cb9-62" title="62"><span class="co">#&gt; 9            Inf       0</span></a>
+<a class="sourceLine" id="cb9-63" title="63"><span class="co">#&gt; 10           Inf       0</span></a>
+<a class="sourceLine" id="cb9-64" title="64"><span class="co">#&gt; 11           Inf       0</span></a>
+<a class="sourceLine" id="cb9-65" title="65"></a>
+<a class="sourceLine" id="cb9-66" title="66">p1 &lt;-<span class="st"> </span>mbal_results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="st">`</span><span class="dt">P (psia)</span><span class="st">`</span>, <span class="st">`</span><span class="dt">RF_gas</span><span class="st">`</span>, <span class="dt">color =</span> <span class="st">&quot;Forecast&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-67" title="67"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-68" title="68"><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">name=</span><span class="st">&quot;Data&quot;</span>, <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;Forecast&quot;</span> =<span class="st"> &quot;red&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-69" title="69"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Gas Recovery Plot&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb9-70" title="70"><span class="st">  </span><span class="kw">theme_bw</span>()</a>
+<a class="sourceLine" id="cb9-71" title="71"></a>
+<a class="sourceLine" id="cb9-72" title="72">p1</a></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"></a>
+<a class="sourceLine" id="cb10-2" title="2"></a>
+<a class="sourceLine" id="cb10-3" title="3">p2 &lt;-<span class="st"> </span>mbal_results  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-4" title="4"><span class="st">  </span>tidyr<span class="op">::</span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;Inwd&quot;</span>, <span class="st">&quot;Igd&quot;</span>, <span class="st">&quot;Ifwd&quot;</span>), <span class="dt">names_to =</span> <span class="st">&quot;Drive Mechanism&quot;</span>,</a>
+<a class="sourceLine" id="cb10-5" title="5">                      <span class="dt">values_to =</span> <span class="st">&quot;Fraction&quot;</span>, <span class="dt">values_drop_na =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb10-6" title="6"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="st">`</span><span class="dt">P (psia)</span><span class="st">`</span>, Fraction, <span class="dt">fill =</span> <span class="st">`</span><span class="dt">Drive Mechanism</span><span class="st">`</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-7" title="7"><span class="st">  </span><span class="kw">geom_area</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-8" title="8"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Energy Plot&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb10-9" title="9"><span class="st">  </span><span class="kw">theme_bw</span>()</a>
+<a class="sourceLine" id="cb10-10" title="10"></a>
+<a class="sourceLine" id="cb10-11" title="11">p2</a></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+</div>
+<div id="example-3-wet-gas-reservoir-walsh2003" class="section level2">
+<h2><code>Example 3: Wet Gas Reservoir</code> <font size="2"> <span class="citation">(Walsh &amp; Lake, 2003)</span> </font></h2>
+<div id="part-i-reservoir-forecast" class="section level3">
+<h3><code>Part I: Reservoir Forecast</code></h3>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">library</span>(Rmbal)</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="kw">library</span>(Rrelperm)</a>
+<a class="sourceLine" id="cb11-3" title="3"><span class="kw">library</span>(pracma)</a>
+<a class="sourceLine" id="cb11-4" title="4"><span class="kw">library</span>(minpack.lm)</a>
+<a class="sourceLine" id="cb11-5" title="5"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb11-6" title="6"><span class="kw">library</span>(dplyr)</a>
+<a class="sourceLine" id="cb11-7" title="7"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb11-8" title="8"></a>
+<a class="sourceLine" id="cb11-9" title="9">p_pvt &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">10300</span>, <span class="dv">9800</span>, <span class="dv">9300</span>, <span class="dv">8800</span>, <span class="dv">8300</span>, <span class="dv">7800</span>, <span class="dv">7300</span>, <span class="dv">6800</span>, <span class="dv">6300</span>, <span class="dv">5800</span>, <span class="dv">5300</span>, <span class="dv">4800</span>,</a>
+<a class="sourceLine" id="cb11-10" title="10">         <span class="dv">4300</span>, <span class="dv">3800</span>, <span class="dv">3300</span>, <span class="dv">2800</span>, <span class="dv">2300</span>, <span class="dv">1800</span>, <span class="dv">1300</span>, <span class="dv">1050</span>, <span class="dv">800</span>, <span class="dv">738</span>, <span class="dv">300</span>) <span class="co"># psia</span></a>
+<a class="sourceLine" id="cb11-11" title="11"></a>
+<a class="sourceLine" id="cb11-12" title="12">Bg &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.5</span>, <span class="fl">0.51</span>, <span class="fl">0.52</span>, <span class="fl">0.532</span>, <span class="fl">0.545</span>, <span class="fl">0.560</span>, <span class="fl">0.577</span>, <span class="fl">0.597</span>, <span class="fl">0.621</span>, <span class="fl">0.648</span>, <span class="fl">0.668</span>,</a>
+<a class="sourceLine" id="cb11-13" title="13">      <span class="fl">0.72</span>, <span class="fl">0.77</span>, <span class="fl">0.83</span>, <span class="fl">0.92</span>, <span class="fl">1.06</span>, <span class="fl">1.27</span>, <span class="fl">1.63</span>, <span class="fl">2.26</span>, <span class="fl">2.925</span>, <span class="fl">3.59</span>,</a>
+<a class="sourceLine" id="cb11-14" title="14">      <span class="fl">4.19</span>, <span class="fl">8.39</span>) <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>                                                <span class="co"># RB/SCF</span></a>
+<a class="sourceLine" id="cb11-15" title="15"></a>
+<a class="sourceLine" id="cb11-16" title="16">Bo &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">18.62</span>, <span class="fl">18.97</span>, <span class="fl">19.36</span>, <span class="fl">19.8</span>, <span class="fl">20.20</span>, <span class="fl">20.85</span>, <span class="fl">21.49</span>, <span class="fl">22.23</span>, <span class="fl">23.11</span>, <span class="fl">24.15</span>, <span class="fl">25.31</span>,</a>
+<a class="sourceLine" id="cb11-17" title="17">      <span class="fl">26.80</span>, <span class="fl">28.66</span>, <span class="fl">30.89</span>, <span class="fl">34.24</span>, <span class="fl">39.45</span>, <span class="fl">47.26</span>, <span class="fl">60.66</span>, <span class="fl">84.11</span>, <span class="fl">108.86</span>, <span class="fl">133.60</span>, </a>
+<a class="sourceLine" id="cb11-18" title="18">      <span class="fl">155.93</span>, <span class="fl">312.24</span>)                                                   <span class="co"># RB/STB</span></a>
+<a class="sourceLine" id="cb11-19" title="19"></a>
+<a class="sourceLine" id="cb11-20" title="20">Rv &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">26.9</span>, <span class="kw">length</span>(p_pvt)) <span class="op">/</span><span class="st"> </span><span class="fl">1e6</span>                                    <span class="co"># STB/SCF</span></a>
+<a class="sourceLine" id="cb11-21" title="21"></a>
+<a class="sourceLine" id="cb11-22" title="22">Rs &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">37216</span>, <span class="kw">length</span>(p_pvt))                                         <span class="co"># SCF/STB</span></a>
+<a class="sourceLine" id="cb11-23" title="23"></a>
+<a class="sourceLine" id="cb11-24" title="24">cw &lt;-<span class="st"> </span><span class="fl">2e-6</span></a>
+<a class="sourceLine" id="cb11-25" title="25"></a>
+<a class="sourceLine" id="cb11-26" title="26">Bwi &lt;-<span class="st"> </span><span class="fl">1.0</span></a>
+<a class="sourceLine" id="cb11-27" title="27"></a>
+<a class="sourceLine" id="cb11-28" title="28">Bw &lt;-<span class="st"> </span>Bwi <span class="op">*</span><span class="st"> </span><span class="kw">exp</span>(cw <span class="op">*</span><span class="st"> </span>(p_pvt[<span class="dv">1</span>] <span class="op">-</span><span class="st"> </span>p_pvt))       <span class="co"># RB/STB</span></a>
+<a class="sourceLine" id="cb11-29" title="29"></a>
+<a class="sourceLine" id="cb11-30" title="30">muo &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">0.5</span>, <span class="kw">length</span>(p_pvt))                 <span class="co"># cp</span></a>
+<a class="sourceLine" id="cb11-31" title="31"></a>
+<a class="sourceLine" id="cb11-32" title="32">muw &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="fl">0.25</span>, <span class="kw">length</span>(p_pvt))                <span class="co"># cp</span></a>
+<a class="sourceLine" id="cb11-33" title="33"></a>
+<a class="sourceLine" id="cb11-34" title="34">mug &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.047</span>, <span class="fl">0.0455</span>, <span class="fl">0.044</span>, <span class="fl">0.0425</span>, <span class="fl">0.041</span>, <span class="fl">0.00395</span>, <span class="fl">0.0379</span>, <span class="fl">0.0363</span>, <span class="fl">0.0347</span>, </a>
+<a class="sourceLine" id="cb11-35" title="35">         <span class="fl">0.033</span>, <span class="fl">0.0311</span>, <span class="fl">0.0289</span>, <span class="fl">0.02267</span>, <span class="fl">0.0243</span>, <span class="fl">0.0220</span>, <span class="fl">0.0197</span>, <span class="fl">0.0177</span>, <span class="fl">0.0160</span>, </a>
+<a class="sourceLine" id="cb11-36" title="36">         <span class="fl">0.0147</span>, <span class="fl">0.0142</span>, <span class="fl">0.0138</span>, <span class="fl">0.0136</span>, <span class="fl">0.0128</span>)      <span class="co"># cp</span></a>
+<a class="sourceLine" id="cb11-37" title="37"></a>
+<a class="sourceLine" id="cb11-38" title="38">pvt_table &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">p =</span> p_pvt, <span class="dt">Bo =</span> Bo, <span class="dt">Rs =</span> Rs, <span class="dt">Rv =</span> Rv, <span class="dt">Bg =</span> Bg,</a>
+<a class="sourceLine" id="cb11-39" title="39">                             <span class="dt">Bw =</span> Bw, <span class="dt">muo =</span> muo, <span class="dt">mug =</span> mug, <span class="dt">muw =</span> muw)</a>
+<a class="sourceLine" id="cb11-40" title="40"></a>
+<a class="sourceLine" id="cb11-41" title="41">p &lt;-<span class="st"> </span>p_pvt</a>
+<a class="sourceLine" id="cb11-42" title="42"></a>
+<a class="sourceLine" id="cb11-43" title="43">wf &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span>,<span class="kw">length</span>(p))</a>
+<a class="sourceLine" id="cb11-44" title="44"></a>
+<a class="sourceLine" id="cb11-45" title="45"><span class="co"># in-situ oil saturation is zero, however the mbal_forecast_param_gas()</span></a>
+<a class="sourceLine" id="cb11-46" title="46"><span class="co"># requires a table of relative permeabilities as an input for the gas-oil system. </span></a>
+<a class="sourceLine" id="cb11-47" title="47"><span class="co"># Therefore, an arbitrary table is generated using the &#39;Rrelperm&#39; package.</span></a>
+<a class="sourceLine" id="cb11-48" title="48"><span class="co"># The generated table does not impact the predictions.</span></a>
+<a class="sourceLine" id="cb11-49" title="49"></a>
+<a class="sourceLine" id="cb11-50" title="50">rel_perm &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(Rrelperm<span class="op">::</span><span class="kw">kr2p_gl</span>(<span class="dt">SWCON =</span> <span class="fl">0.2</span>, <span class="dt">SOIRG =</span> <span class="fl">0.15</span>, <span class="dt">SORG =</span> <span class="fl">0.15</span>, </a>
+<a class="sourceLine" id="cb11-51" title="51">                                            <span class="dt">SGCON =</span> <span class="fl">0.05</span>, <span class="dt">SGCRIT =</span> <span class="fl">0.05</span>, <span class="dt">KRGCL =</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb11-52" title="52">                                            <span class="dt">KROGCG =</span> <span class="dv">1</span>, <span class="dt">NG =</span> <span class="fl">2.0</span>, <span class="dt">NOG =</span> <span class="fl">2.0</span>, </a>
+<a class="sourceLine" id="cb11-53" title="53">                                            <span class="dt">NP =</span> <span class="dv">101</span>))</a>
+<a class="sourceLine" id="cb11-54" title="54"></a>
+<a class="sourceLine" id="cb11-55" title="55"><span class="kw">colnames</span>(rel_perm) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Sg&quot;</span>, <span class="st">&quot;Sl&quot;</span>, <span class="st">&quot;Krg&quot;</span>, <span class="st">&quot;Krog&quot;</span>)</a>
+<a class="sourceLine" id="cb11-56" title="56"></a>
+<a class="sourceLine" id="cb11-57" title="57"></a>
+<a class="sourceLine" id="cb11-58" title="58">forecast_lst &lt;-<span class="st"> </span><span class="kw">mbal_forecast_param_gas</span>(<span class="dt">input_unit =</span> <span class="st">&quot;Field&quot;</span>, <span class="dt">output_unit =</span> <span class="st">&quot;Field&quot;</span>,</a>
+<a class="sourceLine" id="cb11-59" title="59">                                          <span class="dt">G =</span> <span class="fl">69.48e9</span>, <span class="dt">phi =</span> <span class="fl">0.1</span>, <span class="dt">swi =</span> <span class="fl">0.2</span>, <span class="dt">pd =</span> <span class="dv">0</span>, </a>
+<a class="sourceLine" id="cb11-60" title="60">                                          <span class="dt">p =</span> p, <span class="dt">pvt =</span> pvt_table, <span class="dt">cf =</span> <span class="fl">3e-6</span>,</a>
+<a class="sourceLine" id="cb11-61" title="61">                                          <span class="dt">M =</span> <span class="dv">0</span>, <span class="dt">wf =</span> wf, <span class="dt">rel_perm =</span> rel_perm)</a>
+<a class="sourceLine" id="cb11-62" title="62"></a>
+<a class="sourceLine" id="cb11-63" title="63">time_lst &lt;-<span class="st"> </span><span class="kw">mbal_time</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(p_pvt), <span class="st">&quot;year&quot;</span>)</a>
+<a class="sourceLine" id="cb11-64" title="64"></a>
+<a class="sourceLine" id="cb11-65" title="65"><span class="kw">glimpse</span>(forecast_lst)</a>
+<a class="sourceLine" id="cb11-66" title="66"><span class="co">#&gt; List of 12</span></a>
+<a class="sourceLine" id="cb11-67" title="67"><span class="co">#&gt;  $ input_unit : chr &quot;Field&quot;</span></a>
+<a class="sourceLine" id="cb11-68" title="68"><span class="co">#&gt;  $ output_unit: chr &quot;Field&quot;</span></a>
+<a class="sourceLine" id="cb11-69" title="69"><span class="co">#&gt;  $ G          : num 6.95e+10</span></a>
+<a class="sourceLine" id="cb11-70" title="70"><span class="co">#&gt;  $ phi        : num 0.1</span></a>
+<a class="sourceLine" id="cb11-71" title="71"><span class="co">#&gt;  $ swi        : num 0.2</span></a>
+<a class="sourceLine" id="cb11-72" title="72"><span class="co">#&gt;  $ pd         : num 0</span></a>
+<a class="sourceLine" id="cb11-73" title="73"><span class="co">#&gt;  $ p          : num [1:23] 10300 9800 9300 8800 8300 7800 7300 6800 6300 5800 ...</span></a>
+<a class="sourceLine" id="cb11-74" title="74"><span class="co">#&gt;  $ cf         : num [1:23] 3e-06 3e-06 3e-06 3e-06 3e-06 3e-06 3e-06 3e-06 3e-06 3e-06 ...</span></a>
+<a class="sourceLine" id="cb11-75" title="75"><span class="co">#&gt;  $ M          : num 0</span></a>
+<a class="sourceLine" id="cb11-76" title="76"><span class="co">#&gt;  $ pvt        :&#39;data.frame&#39;: 23 obs. of  9 variables:</span></a>
+<a class="sourceLine" id="cb11-77" title="77"><span class="co">#&gt;   ..$ p  : num [1:23] 10300 9800 9300 8800 8300 7800 7300 6800 6300 5800 ...</span></a>
+<a class="sourceLine" id="cb11-78" title="78"><span class="co">#&gt;   ..$ Bo : num [1:23] 18.6 19 19.4 19.8 20.2 ...</span></a>
+<a class="sourceLine" id="cb11-79" title="79"><span class="co">#&gt;   ..$ Rs : num [1:23] 37216 37216 37216 37216 37216 ...</span></a>
+<a class="sourceLine" id="cb11-80" title="80"><span class="co">#&gt;   ..$ Rv : num [1:23] 2.69e-05 2.69e-05 2.69e-05 2.69e-05 2.69e-05 2.69e-05 2.69e-05 2.69e-05 2.69e-05 2.69e-05 ...</span></a>
+<a class="sourceLine" id="cb11-81" title="81"><span class="co">#&gt;   ..$ Bg : num [1:23] 0.0005 0.00051 0.00052 0.000532 0.000545 0.00056 0.000577 0.000597 0.000621 0.000648 ...</span></a>
+<a class="sourceLine" id="cb11-82" title="82"><span class="co">#&gt;   ..$ Bw : num [1:23] 1 1 1 1 1 ...</span></a>
+<a class="sourceLine" id="cb11-83" title="83"><span class="co">#&gt;   ..$ muo: num [1:23] 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 ...</span></a>
+<a class="sourceLine" id="cb11-84" title="84"><span class="co">#&gt;   ..$ mug: num [1:23] 0.047 0.0455 0.044 0.0425 0.041 0.00395 0.0379 0.0363 0.0347 0.033 ...</span></a>
+<a class="sourceLine" id="cb11-85" title="85"><span class="co">#&gt;   ..$ muw: num [1:23] 0.25 0.25 0.25 0.25 0.25 0.25 0.25 0.25 0.25 0.25 ...</span></a>
+<a class="sourceLine" id="cb11-86" title="86"><span class="co">#&gt;  $ wf         : num [1:23] 1 1 1 1 1 1 1 1 1 1 ...</span></a>
+<a class="sourceLine" id="cb11-87" title="87"><span class="co">#&gt;  $ rel_perm   :&#39;data.frame&#39;: 101 obs. of  4 variables:</span></a>
+<a class="sourceLine" id="cb11-88" title="88"><span class="co">#&gt;   ..$ Sg  : num [1:101] 0 0.01 0.02 0.03 0.04 0.05 0.06 0.07 0.08 0.09 ...</span></a>
+<a class="sourceLine" id="cb11-89" title="89"><span class="co">#&gt;   ..$ Sl  : num [1:101] 1 0.99 0.98 0.97 0.96 0.95 0.94 0.93 0.92 0.91 ...</span></a>
+<a class="sourceLine" id="cb11-90" title="90"><span class="co">#&gt;   ..$ Krg : num [1:101] 0 0 0 0 0 ...</span></a>
+<a class="sourceLine" id="cb11-91" title="91"><span class="co">#&gt;   ..$ Krog: num [1:101] 1 1 1 1 1 ...</span></a>
+<a class="sourceLine" id="cb11-92" title="92"><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:2] &quot;volumetric_forecast_gas&quot; &quot;forecast_gas&quot;</span></a>
+<a class="sourceLine" id="cb11-93" title="93"> </a>
+<a class="sourceLine" id="cb11-94" title="94">forecast_results &lt;-<span class="st"> </span><span class="kw">mbal_forecast_gas</span>(forecast_lst, time_lst)</a>
+<a class="sourceLine" id="cb11-95" title="95"></a>
+<a class="sourceLine" id="cb11-96" title="96">forecast_results</a>
+<a class="sourceLine" id="cb11-97" title="97"><span class="co">#&gt;    P (psia) SOg SGg SWg SOT SGT SWT GOR (SCF/STB)     RF_oil     RF_gas</span></a>
+<a class="sourceLine" id="cb11-98" title="98"><span class="co">#&gt; 1     10300   0 0.8 0.2   0 0.8 0.2      37174.72 0.00000000 0.00000000</span></a>
+<a class="sourceLine" id="cb11-99" title="99"><span class="co">#&gt; 2      9800   0 0.8 0.2   0 0.8 0.2      37174.72 0.01960784 0.01960784</span></a>
+<a class="sourceLine" id="cb11-100" title="100"><span class="co">#&gt; 3      9300   0 0.8 0.2   0 0.8 0.2      37174.72 0.03846154 0.03846154</span></a>
+<a class="sourceLine" id="cb11-101" title="101"><span class="co">#&gt; 4      8800   0 0.8 0.2   0 0.8 0.2      37174.72 0.06015038 0.06015038</span></a>
+<a class="sourceLine" id="cb11-102" title="102"><span class="co">#&gt; 5      8300   0 0.8 0.2   0 0.8 0.2      37174.72 0.08256881 0.08256881</span></a>
+<a class="sourceLine" id="cb11-103" title="103"><span class="co">#&gt; 6      7800   0 0.8 0.2   0 0.8 0.2      37174.72 0.10714286 0.10714286</span></a>
+<a class="sourceLine" id="cb11-104" title="104"><span class="co">#&gt; 7      7300   0 0.8 0.2   0 0.8 0.2      37174.72 0.13344887 0.13344887</span></a>
+<a class="sourceLine" id="cb11-105" title="105"><span class="co">#&gt; 8      6800   0 0.8 0.2   0 0.8 0.2      37174.72 0.16247906 0.16247906</span></a>
+<a class="sourceLine" id="cb11-106" title="106"><span class="co">#&gt; 9      6300   0 0.8 0.2   0 0.8 0.2      37174.72 0.19484702 0.19484702</span></a>
+<a class="sourceLine" id="cb11-107" title="107"><span class="co">#&gt; 10     5800   0 0.8 0.2   0 0.8 0.2      37174.72 0.22839506 0.22839506</span></a>
+<a class="sourceLine" id="cb11-108" title="108"><span class="co">#&gt; 11     5300   0 0.8 0.2   0 0.8 0.2      37174.72 0.25149701 0.25149701</span></a>
+<a class="sourceLine" id="cb11-109" title="109"><span class="co">#&gt; 12     4800   0 0.8 0.2   0 0.8 0.2      37174.72 0.30555556 0.30555556</span></a>
+<a class="sourceLine" id="cb11-110" title="110"><span class="co">#&gt; 13     4300   0 0.8 0.2   0 0.8 0.2      37174.72 0.35064935 0.35064935</span></a>
+<a class="sourceLine" id="cb11-111" title="111"><span class="co">#&gt; 14     3800   0 0.8 0.2   0 0.8 0.2      37174.72 0.39759036 0.39759036</span></a>
+<a class="sourceLine" id="cb11-112" title="112"><span class="co">#&gt; 15     3300   0 0.8 0.2   0 0.8 0.2      37174.72 0.45652174 0.45652174</span></a>
+<a class="sourceLine" id="cb11-113" title="113"><span class="co">#&gt; 16     2800   0 0.8 0.2   0 0.8 0.2      37174.72 0.52830189 0.52830189</span></a>
+<a class="sourceLine" id="cb11-114" title="114"><span class="co">#&gt; 17     2300   0 0.8 0.2   0 0.8 0.2      37174.72 0.60629921 0.60629921</span></a>
+<a class="sourceLine" id="cb11-115" title="115"><span class="co">#&gt; 18     1800   0 0.8 0.2   0 0.8 0.2      37174.72 0.69325153 0.69325153</span></a>
+<a class="sourceLine" id="cb11-116" title="116"><span class="co">#&gt; 19     1300   0 0.8 0.2   0 0.8 0.2      37174.72 0.77876106 0.77876106</span></a>
+<a class="sourceLine" id="cb11-117" title="117"><span class="co">#&gt; 20     1050   0 0.8 0.2   0 0.8 0.2      37174.72 0.82905983 0.82905983</span></a>
+<a class="sourceLine" id="cb11-118" title="118"><span class="co">#&gt; 21      800   0 0.8 0.2   0 0.8 0.2      37174.72 0.86072423 0.86072423</span></a>
+<a class="sourceLine" id="cb11-119" title="119"><span class="co">#&gt; 22      738   0 0.8 0.2   0 0.8 0.2      37174.72 0.88066826 0.88066826</span></a>
+<a class="sourceLine" id="cb11-120" title="120"><span class="co">#&gt; 23      300   0 0.8 0.2   0 0.8 0.2      37174.72 0.94040524 0.94040524</span></a>
+<a class="sourceLine" id="cb11-121" title="121"><span class="co">#&gt;    Liq_volume       Igd Inwd        Ifwd Iawd Itot</span></a>
+<a class="sourceLine" id="cb11-122" title="122"><span class="co">#&gt; 1           0        NA   NA          NA   NA   NA</span></a>
+<a class="sourceLine" id="cb11-123" title="123"><span class="co">#&gt; 2           0 0.9039497    0 0.096050307    0    1</span></a>
+<a class="sourceLine" id="cb11-124" title="124"><span class="co">#&gt; 3           0 0.9039446    0 0.096055419    0    1</span></a>
+<a class="sourceLine" id="cb11-125" title="125"><span class="co">#&gt; 4           0 0.9093993    0 0.090600698    0    1</span></a>
+<a class="sourceLine" id="cb11-126" title="126"><span class="co">#&gt; 5           0 0.9136870    0 0.086312993    0    1</span></a>
+<a class="sourceLine" id="cb11-127" title="127"><span class="co">#&gt; 6           0 0.9186383    0 0.081361727    0    1</span></a>
+<a class="sourceLine" id="cb11-128" title="128"><span class="co">#&gt; 7           0 0.9235133    0 0.076486741    0    1</span></a>
+<a class="sourceLine" id="cb11-129" title="129"><span class="co">#&gt; 8           0 0.9287579    0 0.071242140    0    1</span></a>
+<a class="sourceLine" id="cb11-130" title="130"><span class="co">#&gt; 9           0 0.9343340    0 0.065666002    0    1</span></a>
+<a class="sourceLine" id="cb11-131" title="131"><span class="co">#&gt; 10          0 0.9392795    0 0.060720472    0    1</span></a>
+<a class="sourceLine" id="cb11-132" title="132"><span class="co">#&gt; 11          0 0.9404848    0 0.059515172    0    1</span></a>
+<a class="sourceLine" id="cb11-133" title="133"><span class="co">#&gt; 12          0 0.9495238    0 0.050476211    0    1</span></a>
+<a class="sourceLine" id="cb11-134" title="134"><span class="co">#&gt; 13          0 0.9548766    0 0.045123354    0    1</span></a>
+<a class="sourceLine" id="cb11-135" title="135"><span class="co">#&gt; 14          0 0.9597959    0 0.040204128    0    1</span></a>
+<a class="sourceLine" id="cb11-136" title="136"><span class="co">#&gt; 15          0 0.9657674    0 0.034232564    0    1</span></a>
+<a class="sourceLine" id="cb11-137" title="137"><span class="co">#&gt; 16          0 0.9723039    0 0.027696133    0    1</span></a>
+<a class="sourceLine" id="cb11-138" title="138"><span class="co">#&gt; 17          0 0.9783790    0 0.021621014    0    1</span></a>
+<a class="sourceLine" id="cb11-139" title="139"><span class="co">#&gt; 18          0 0.9842514    0 0.015748602    0    1</span></a>
+<a class="sourceLine" id="cb11-140" title="140"><span class="co">#&gt; 19          0 0.9892390    0 0.010760994    0    1</span></a>
+<a class="sourceLine" id="cb11-141" title="141"><span class="co">#&gt; 20          0 0.9919508    0 0.008049230    0    1</span></a>
+<a class="sourceLine" id="cb11-142" title="142"><span class="co">#&gt; 21          0 0.9935020    0 0.006498019    0    1</span></a>
+<a class="sourceLine" id="cb11-143" title="143"><span class="co">#&gt; 22          0 0.9945174    0 0.005482582    0    1</span></a>
+<a class="sourceLine" id="cb11-144" title="144"><span class="co">#&gt; 23          0 0.9973108    0 0.002689221    0    1</span></a>
+<a class="sourceLine" id="cb11-145" title="145"></a>
+<a class="sourceLine" id="cb11-146" title="146">p1 &lt;-<span class="st"> </span>forecast_results <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="st">`</span><span class="dt">P (psia)</span><span class="st">`</span>, <span class="st">`</span><span class="dt">RF_gas</span><span class="st">`</span>, <span class="dt">color =</span> <span class="st">&quot;Forecast&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-147" title="147"><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">3</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-148" title="148"><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">name=</span><span class="st">&quot;Data&quot;</span>, <span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;Forecast&quot;</span> =<span class="st"> &quot;red&quot;</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-149" title="149"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Gas Recovery Plot&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb11-150" title="150"><span class="st">  </span><span class="kw">theme_bw</span>()</a>
+<a class="sourceLine" id="cb11-151" title="151"></a>
+<a class="sourceLine" id="cb11-152" title="152">p1</a></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"></a>
+<a class="sourceLine" id="cb12-2" title="2"></a>
+<a class="sourceLine" id="cb12-3" title="3">p2 &lt;-<span class="st"> </span>forecast_results  <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="st">  </span>tidyr<span class="op">::</span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;Igd&quot;</span>, <span class="st">&quot;Ifwd&quot;</span>), <span class="dt">names_to =</span> <span class="st">&quot;Drive Mechanism&quot;</span>,</a>
+<a class="sourceLine" id="cb12-5" title="5">                      <span class="dt">values_to =</span> <span class="st">&quot;Fraction&quot;</span>, <span class="dt">values_drop_na =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb12-6" title="6"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="st">`</span><span class="dt">P (psia)</span><span class="st">`</span>, Fraction, <span class="dt">fill =</span> <span class="st">`</span><span class="dt">Drive Mechanism</span><span class="st">`</span>)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-7" title="7"><span class="st">  </span><span class="kw">geom_area</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-8" title="8"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&quot;Energy Plot&quot;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-9" title="9"><span class="st">  </span><span class="kw">theme_bw</span>()</a>
+<a class="sourceLine" id="cb12-10" title="10"></a>
+<a class="sourceLine" id="cb12-11" title="11">p2</a></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2><code>References</code></h2>
+<div id="refs" class="references">
+<div id="ref-IkokuChi1984">
+<p>Ikoku, Chi, U. (1984). <em>Natural Gas Reservoir Engineering</em> (p. 503). John Wiley &amp; Sons, Ltd.</p>
+</div>
+<div id="ref-Pletcher2002a">
+<p>Pletcher, J. L. (2002). Improvements to Reservoir Material-Balance Methods. <em>SPE Reservoir Evaluation &amp; Engineering</em>, <em>5</em>(01), 49–59. <a href="https://doi.org/10.2118/75354-PA">https://doi.org/10.2118/75354-PA</a></p>
+</div>
+<div id="ref-Walsh2003">
+<p>Walsh, M. P., &amp; Lake, L. W. (2003). <em>A Generalized Approach to Primary Hydrocarbon Recovery</em> (1st ed., p. 652; M. P. Walsh &amp; L. W. Lake, Eds.). Retrieved from <a href="https://www.elsevier.com/books/a-generalized-approach-to-primary-hydrocarbon-recovery-of-petroleum-exploration-and-production/walsh/978-0-444-50683-2">https://www.elsevier.com/books/a-generalized-approach-to-primary-hydrocarbon-recovery-of-petroleum-exploration-and-production/walsh/978-0-444-50683-2</a></p>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

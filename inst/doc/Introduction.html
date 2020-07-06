@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Rmbal Package</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Rmbal Package</h1>
+
+
+
+<div id="rmbal" class="section level2">
+<h2><code>Rmbal</code></h2>
+<p><code>Rmabl</code> is a material balance package for evaluation of hydrocarbon in-place, and reservoir performance and forecast. ‘Rmbal’ is developed following the “Generalized Approach to Reservoir Material Balance Calculations” proposed by Walsh <span class="citation">(Walsh, 1995; M. P. Walsh et al., 1994a, 1994b; Walsh &amp; Lake, 2003)</span>. A tank modeling approach using dynamic elastic subgrids is used in the material balance calculations. It applies to black oil, volatile oil, gas condensate, wet gas, and dry gas reservoirs. It also models the reservoir performance of compactible gas reservoirs <span class="citation">(Fetkovich, Reese, &amp; Whitson, 1998)</span>.</p>
+<p>The following tasks can be handled by <code>Rmbal</code>:</p>
+<ul>
+<li><p>Hydrocarbon in-place estimation for oil reservoirs with(out) gas-cap and with(out) aquifer</p></li>
+<li><p>Hydrocarbon in-place estimation for (over-pressured)gas reservoirs with(out) aquifer</p></li>
+<li><p>Reservoir performance evaluation for all types of oil and gas reservoirs</p></li>
+<li><p>Reservoir forecast for oil and gas reservoirs with no aquifer, no water injection, and no water production.</p></li>
+</ul>
+</div>
+<div id="material-balance-analysis-of-oil-reservoirs" class="section level2">
+<h2><code>Material Balance analysis of Oil Reservoirs</code></h2>
+<p>The following functions can be used for original hydrocarbon in-place estimation, reservoir performance modeling, and forecasting for oil reservoirs:</p>
+<ul>
+<li><p>mbal_time()</p></li>
+<li><p>mbal_optim_param_oil()</p></li>
+<li><p>mbal_optim_oil()</p></li>
+<li><p>mbal_perform_param_oil()</p></li>
+<li><p>mbal_perform_oil()</p></li>
+<li><p>mbal_forecast_param_oil()</p></li>
+<li><p>mbal_forecast_oil()</p></li>
+</ul>
+<div id="mbal_time-arguments" class="section level3">
+<h3><code>mbal_time() arguments</code></h3>
+<ul>
+<li><code>x</code>: A vector or sequence of times/dates.</li>
+<li><code>unit</code>: A unit system for input vector x.</li>
+</ul>
+</div>
+<div id="mbal_optim_param_oil-arguments" class="section level3">
+<h3><code>mbal_optim_param_oil() arguments</code></h3>
+<ul>
+<li><code>input_unit</code>: A unit system for parameters, only the character string ‘Field’ is accepted.</li>
+<li><code>output_unit</code>: A unit system for properties, only the character string ‘Field’ is accepted.</li>
+<li><code>unknown_param</code>: A character string showing the unknown parameter(s). One of the following options: ‘N’, ‘m’, ‘We’, or ‘N_m’.</li>
+<li><code>aquifer_model</code>: Defaulted to <code>NULL</code>, otherwise must be a character string, one of the following eight options: ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_rad_edge’, ‘pss_lin_edge’, ‘pss_lin_bottom’, ‘pot’. For further information about each model, please see ‘Raquifer’ package reference manual (<a href="https://CRAN.R-project.org/package=Raquifer" class="uri">https://CRAN.R-project.org/package=Raquifer</a>).</li>
+<li><code>N</code>: Original oil in place, STB. If unknown, a <code>NULL</code> value must be assigned.</li>
+<li><code>m</code>: Ratio of original gas cap volume to original oil leg volume, a numeric. If unknown, a <code>NULL</code> value must be assigned.</li>
+<li><code>phi</code>: Reservoir porosity, a numeric fraction.</li>
+<li><code>swi</code>: Initial water saturation in the reservoir, a numeric fraction.</li>
+<li><code>Np</code>: Cumulative oil production, STB.</li>
+<li><code>Rp</code>: Ratio of cumulative produced gas to cumulative produced oil.</li>
+<li><code>Wp</code>: Cumulative water production, STB.</li>
+<li><code>Gi</code>: Cumulative gas injection, SCF.</li>
+<li><code>Wi</code>: Cumulative water injection, STB.</li>
+<li><code>We</code>: Cumulative aquifer water influx, BBL. If unknown, a <code>NULL</code> value must be assigned.</li>
+<li><code>pb</code>: Bubble point pressure, a numeric value, psi.</li>
+<li><code>p</code>: Average reservoir pressure, a numeric vector, psi.</li>
+<li><code>pvt</code>: A data frame of PVT properties including pressure ‘p’ in ‘psi’, oil formation volume factor ‘Bo’ in ‘bbl/stb’, solution gas-oil ratio ‘Rs’ in ‘scf/stb’, oil viscosity ‘muo’ in ‘cp’, volatilized oil-gas ratio ‘Rv’ in ‘stb/scf’, gas formation volume factor ‘Bg’ in ‘bbl/scf’, gas viscosity ‘mug’ in ‘cp’, water formation volume factor ‘Bw’ in ‘bbl/stb’, and water viscosity ‘muw’ in ‘cp’.</li>
+<li><code>cf</code>: Formation compressibility, a numeric value or vector, 1/psi.</li>
+<li><code>phi_a</code>: Aquifer porosity, a numeric fraction.</li>
+<li><code>perm_h_a</code>: Aquifer horizontal permeability, md. Used in ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘uss_lin_edge’, ‘pss_rad_edge’, ‘pss_lin_edge’ and ‘pot’ aquifer models.</li>
+<li><code>perm_v_a</code>: Aquifer vertical permeability, md. Used in ‘uss_rad_bottom’, ‘uss_lin_bottom’, ‘pss_rad_bottom’, and ‘pss_lin_bottom’ aquifer models.</li>
+<li><code>h_a</code>: Aquifer height, ft.</li>
+<li><code>r_a</code>: Aquifer radius, ft. Used in ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘pss_rad_edge’, and ‘pot’ aquifer models.</li>
+<li><code>r_R</code>: Reservoir radius, ft. Used in ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘pss_rad_edge’, and ‘pot’ aquifer models.</li>
+<li><code>w_a</code>: Aquifer width, ft. Used in ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_lin_edge’, and ‘pss_lin_bottom’ aquifer models.</li>
+<li><code>l_a</code>: Aquifer length, ft. Used in ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_lin_edge’, and ‘pss_lin_bottom’ aquifer models.</li>
+<li><code>tetha</code>: Fraction of reservoir encircled by the aquifer, degrees. Used in ‘uss_rad_edge’, ‘pss_rad_edge’, and ‘pot’ aquifer models.</li>
+<li><code>muw_a</code>: Aquifer water viscosity, cp.</li>
+<li><code>cw_a</code>: Aquifer water compressibility, a numeric value, 1/psi.</li>
+<li><code>cf_a</code>: Aquifer formation compressibility, a numeric value, 1/psi.</li>
+<li><code>wf</code>: Weight factor, a numeric vector of zeros and ones. A zero value excludes the entire row of reservoir history data at a particular time from the material balance analysis.</li>
+<li><code>sorg</code>: Residual oil saturation in gas invaded zone (gas cap expansion or gas injection), a numeric fraction.</li>
+<li><code>sorw</code>: Residual oil saturation in water invaded zone (aquifer encroachment or water injection), a numeric fraction.</li>
+<li><code>mult_len</code>: A numeric vector of initial estimates for the ‘aquifer_model’ parameters. A vector of length one for the ‘pot’ aquifer model. It applies as a multiplier to the radius of the aquifer. A vector of length two for the ‘uss_rad_edge’, and ‘pss_rad_edge’ aquifer models. The first parameter is applied as a multiplier to the aquifer radius, and the second parameter is applied as a multiplier to the aquifer horizontal permeability. A vector of length two for the ‘uss_lin_edge’, and ‘pss_lin_edge’ aquifer models. The first parameter is applied as a multiplier to the aquifer length, and the second parameter is applied as a multiplier to the aquifer horizontal permeability. A vector of length two for the ‘uss_lin_bottom’, and ‘pss_lin_bottom’ aquifer models. The first parameter is applied as a multiplier to the aquifer height, and the second parameter is applied as a multiplier to the aquifer vertical permeability. A vector of length three for the ‘uss_rad_bottom’ aquifer model. The first parameter is applied as a multiplier to the aquifer radius, the second parameter is applied as a multiplier to the aquifer horizontal permeability, and the third parameter is applied as a multiplier to the aquifer vertical permeability.</li>
+<li><code>lower</code>: An optional numeric vector of lower bounds for the ‘aquifer_model’ parameters. See ‘minpack.lm’ package for details.</li>
+<li><code>upper</code>: An optional numeric vector of upper bounds for the ‘aquifer_model’ parameters. See ‘minpack.lm’ package for details.</li>
+<li><code>control</code>: An optional list of control settings. See ‘minpack.lm’ package for details.</li>
+</ul>
+</div>
+<div id="mbal_optim_oil-arguments" class="section level3">
+<h3><code>mbal_optim_oil() arguments</code></h3>
+<ul>
+<li><code>optim_lst</code>: A list object of class ‘optimization_oil’.</li>
+<li><code>time_lst</code>: A list object of class ‘time/date’.</li>
+</ul>
+</div>
+<div id="mbal_optim_oil-outputs" class="section level3">
+<h3><code>mbal_optim_oil() outputs</code></h3>
+<p>It returns a list object with the following elements and a class according to the ‘optim_lst’ inputs:</p>
+<ul>
+<li><code>input_unit</code>: A unit system for parameters.</li>
+<li><code>output_unit</code>: A unit system for properties.</li>
+<li><code>N</code>: Original oil in place, STB.</li>
+<li><code>m</code>: Ratio of original gas cap volume to original oil leg volume.</li>
+<li><code>phi</code>: Reservoir porosity.</li>
+<li><code>swi</code>: Initial water saturation in reservoir.</li>
+<li><code>pb</code>: Bubble point pressure.</li>
+<li><code>p</code>: Average reservoir pressure vector.</li>
+<li><code>cf</code>: Formation compressibility.</li>
+<li><code>pvt</code>: A data frame of PVT properties including pressure ‘p’ in ‘psi’, oil formation volume factor ‘Bo’ in ‘bbl/stb’, solution gas-oil ratio ‘Rs’ in ‘scf/stb’, oil viscosity ‘muo’ in ‘cp’, volatilized oil-gas ratio ‘Rv’ in ‘stb/scf’, gas formation volume factor ‘Bg’ in ‘bbl/scf’, gas viscosity ‘mug’ in ‘cp’, water formation volume factor ‘Bw’ in ‘bbl/stb’, and water viscosity ‘muw’ in ‘cp’.</li>
+<li><code>prod</code>: A data frame of production data, Np, Rp, and Wp.</li>
+<li><code>inj</code>: A data frame of injection data, Gi, and Wi.</li>
+<li><code>We</code>: A vector of aquifer encroached water into the reservoir.</li>
+<li><code>aquifer</code>: A list of aquifer parameters and its class.</li>
+<li><code>wf</code>: Weight factor.</li>
+<li><code>sorg</code>: Residual oil saturation in gas invaded zone (gas cap expansion or gas injection).</li>
+<li><code>sorw</code>: Residual oil saturation in water invaded zone (aquifer encroachment or water injection).</li>
+<li><code>p_est</code>: Estimated pressures from the material balance analysis.</li>
+</ul>
+</div>
+<div id="mbal_perform_param_oil-arguments" class="section level3">
+<h3><code>mbal_perform_param_oil() arguments</code></h3>
+<ul>
+<li><code>input_unit</code>: A unit system for parameters, only the character string ‘Field’ is accepted.</li>
+<li><code>output_unit</code>: A unit system for properties, only the character string ‘Field’ is accepted.</li>
+<li><code>aquifer_model</code>: Defaulted to <code>NULL</code>, otherwise must be a character string, one of the following eight options: ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_rad_edge’, ‘pss_lin_edge’, ‘pss_lin_bottom’, ‘pot’. For further information about each model, please see ‘Raquifer’ package reference manual (<a href="https://CRAN.R-project.org/package=Raquifer" class="uri">https://CRAN.R-project.org/package=Raquifer</a>).</li>
+<li><code>N</code>: Original oil in place, STB.</li>
+<li><code>m</code>: Ratio of original gas cap volume to original oil leg volume, a numeric fraction.</li>
+<li><code>phi</code>: Reservoir porosity, a numeric fraction.</li>
+<li><code>swi</code>: Initial water saturation in the reservoir, a numeric fraction.</li>
+<li><code>Np</code>: Cumulative oil production, STB.</li>
+<li><code>Rp</code>: Ratio of cumulative produced gas to cumulative produced oil.</li>
+<li><code>Wp</code>: Cumulative water production, STB.</li>
+<li><code>Gi</code>: Cumulative gas injection, SCF.</li>
+<li><code>Wi</code>: Cumulative water injection, STB.</li>
+<li><code>We</code>: Cumulative aquifer water influx, BBL.</li>
+<li><code>pb</code>: Bubble point pressure, a numeric value, psi.</li>
+<li><code>p</code>: Average reservoir pressure, a numeric vector, psi.</li>
+<li><code>pvt</code>: A data frame of PVT properties including pressure ‘p’ in ‘psi’, oil formation volume factor ‘Bo’ in ‘bbl/stb’, solution gas-oil ratio ‘Rs’ in ‘scf/stb’, oil viscosity ‘muo’ in ‘cp’, volatilized oil-gas ratio ‘Rv’ in ‘stb/scf’, gas formation volume factor ‘Bg’ in ‘bbl/scf’, gas viscosity ‘mug’ in ‘cp’, water formation volume factor ‘Bw’ in ‘bbl/stb’, and water viscosity ‘muw’ in ‘cp’.</li>
+<li><code>cf</code>: Formation compressibility, a numeric value or vector, 1/psi.</li>
+<li><code>phi_a</code>: Aquifer porosity, a numeric fraction.</li>
+<li><code>perm_h_a</code>: Aquifer horizontal permeability, md. Used in ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘uss_lin_edge’, ‘pss_rad_edge’, ‘pss_lin_edge’ and ‘pot’ aquifer models.</li>
+<li><code>perm_v_a</code>: Aquifer vertical permeability, md. Used in ‘uss_rad_bottom’, ‘uss_lin_bottom’, ‘pss_rad_bottom’, and ‘pss_lin_bottom’ aquifer models.</li>
+<li><code>h_a</code>: Aquifer height, ft.</li>
+<li><code>r_a</code>: Aquifer radius, ft. Used in ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘pss_rad_edge’, and ‘pot’ aquifer models.</li>
+<li><code>r_R</code>: Reservoir radius, ft. Used in ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘pss_rad_edge’, and ‘pot’ aquifer models.</li>
+<li><code>w_a</code>: Aquifer width, ft. Used in ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_lin_edge’, and ‘pss_lin_bottom’ aquifer models.</li>
+<li><code>l_a</code>: Aquifer length, ft. Used in ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_lin_edge’, and ‘pss_lin_bottom’ aquifer models.</li>
+<li><code>tetha</code>: Fraction of reservoir encircled by the aquifer, degrees. Used in ‘uss_rad_edge’, ‘pss_rad_edge’, and ‘pot’ aquifer models.</li>
+<li><code>muw_a</code>: Aquifer water viscosity, cp.</li>
+<li><code>cw_a</code>: Aquifer water compressibility, a numeric value, 1/psi.</li>
+<li><code>cf_a</code>: Aquifer formation compressibility, a numeric value, 1/psi.</li>
+<li><code>wf</code>: Weight factor, a numeric vector of zeros and ones. A zero value excludes the entire row of reservoir history data at a particular time from the material balance analysis.</li>
+<li><code>sorg</code>: Residual oil saturation in gas invaded zone (gas cap expansion or gas injection), a numeric fraction.</li>
+<li><code>sorw</code>: Residual oil saturation in water invaded zone (aquifer encroachment or water injection), a numeric fraction.</li>
+</ul>
+</div>
+<div id="mbal_perform_oil-arguments" class="section level3">
+<h3><code>mbal_perform_oil() arguments</code></h3>
+<ul>
+<li><code>mbal_lst</code>: A list object of class ‘mbal_oil’.</li>
+<li><code>time_lst</code>: A list object of class ‘time/date’.</li>
+</ul>
+</div>
+<div id="mbal_perform_oil-outputs" class="section level3">
+<h3><code>mbal_perform_oil() outputs</code></h3>
+<p>It returns a data frame with the following columns:</p>
+<ul>
+<li><code>P (psia)</code>: Average reservoir pressure.</li>
+<li><code>Eo (bbl/STB)</code>: Oil expansivity.</li>
+<li><code>Eg (bbl/SCF)</code>: Gas expansivity.</li>
+<li><code>Ew (bbl/STB)</code>: Water expansivity.</li>
+<li><code>Ef (bbl/bbl)</code>: Rock expansivity.</li>
+<li><code>Eowf (bbl/STB)</code>: Composite expansivity.</li>
+<li><code>Egwf (bbl/SCF)</code>: Composite expansivity.</li>
+<li><code>Et (bbl)</code>: Total reservoir expansion.</li>
+<li><code>F (bbl)</code>: Net fluid withdrawal.</li>
+<li><code>We</code>: Aquifer encroached water.</li>
+<li><code>Igd</code>: Gas-cap-drive index.</li>
+<li><code>Isd</code>: Solution-gas-drive index.</li>
+<li><code>Inwd</code>: Natural-water-drive index.</li>
+<li><code>Ifwd</code>: Compaction-connate_water-drive index.</li>
+<li><code>Iawd</code>: Artificial-water-drive index.</li>
+<li><code>Itot</code>: Total-drive index.</li>
+<li><code>RF_oil</code>: Oil recovery factor.</li>
+<li><code>RF_gas</code>: Gas recovery factor.</li>
+<li><code>SOo</code>: Average oil saturation in the oil leg.</li>
+<li><code>SGo</code>: Average gas saturation in the oil leg.</li>
+<li><code>SWo</code>: Average water saturation in the oil leg.</li>
+<li><code>SOT</code>: Average oil saturation in the tank.</li>
+<li><code>SGT</code>: Average gas saturation in the tank.</li>
+<li><code>SWT</code>: Average water saturation in the tank.</li>
+<li><code>qo (STB/day)</code>: Average oil rate within the period.</li>
+<li><code>qg (SCF/day)</code>: Average gas rate within the period.</li>
+<li><code>qw (STB/day)</code>: Average water rate within the period.</li>
+<li><code>fg</code>: In-situ free-gas fractional flow.</li>
+<li><code>fw</code>: In-situ water fractional flow.</li>
+<li><code>GOR (SCF/STB)</code>: Gas to oil ratio.</li>
+<li><code>krg/kro</code>: Ratio of gas relative permeability to oil relative permeability in the oil leg.</li>
+</ul>
+</div>
+<div id="mbal_forecast_param_oil-arguments" class="section level3">
+<h3><code>mbal_forecast_param_oil() arguments</code></h3>
+<ul>
+<li><code>input_unit</code>: A unit system for parameters, only the character string ‘Field’ is accepted.</li>
+<li><code>output_unit</code>: A unit system for properties, only the character string ‘Field’ is accepted.</li>
+<li><code>aquifer_model</code>: Defaulted to <code>NULL</code>, otherwise must be a character string, one of the following eight options: ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_rad_edge’, ‘pss_lin_edge’, ‘pss_lin_bottom’, ‘pot’. For further information about each model, please see ‘Raquifer’ package reference manual (<a href="https://CRAN.R-project.org/package=Raquifer" class="uri">https://CRAN.R-project.org/package=Raquifer</a>).</li>
+<li><code>N</code>: Original oil in place, STB.</li>
+<li><code>m</code>: Ratio of original gas cap volume to original oil leg volume, a numeric fraction.</li>
+<li><code>phi</code>: Reservoir porosity, a numeric fraction.</li>
+<li><code>swi</code>: Initial water saturation in the reservoir, a numeric fraction.</li>
+<li><code>Gi</code>: Cumulative gas injection, SCF.</li>
+<li><code>pb</code>: Bubble point pressure, a numeric value, psi.</li>
+<li><code>p</code>: Reservoir pressure, a numeric vector, psi.</li>
+<li><code>pvt</code>: A data frame of PVT properties including pressure ‘p’ in ‘psi’, oil formation volume factor ‘Bo’ in ‘bbl/stb’, solution gas-oil ratio ‘Rs’ in ‘scf/stb’, oil viscosity ‘muo’ in ‘cp’, volatilized oil-gas ratio ‘Rv’ in ‘stb/scf’, gas formation volume factor ‘Bg’ in ‘bbl/scf’, gas viscosity ‘mug’ in ‘cp’, water formation volume factor ‘Bw’ in ‘bbl/stb’, and water viscosity ‘muw’ in ‘cp’.</li>
+<li><code>cf</code>: Formation compressibility, a numeric value or vector, 1/psi.</li>
+<li><code>wf</code>: Weight factor, a numeric vector of zeros and ones. A zero value excludes the entire row of reservoir history data at a particular time from the material balance analysis.</li>
+<li><code>sorg</code>: Residual oil saturation in gas invaded zone (gas cap expansion or gas injection), a numeric fraction.</li>
+<li><code>rel_perm</code>: A data frame with four columns: gas saturation ‘Sg’, liquid saturation ‘Sl’, gas relative permeability ‘Krg’, and oil relative permeability ‘Krog’.</li>
+</ul>
+</div>
+<div id="mbal_forecast_oil-arguments" class="section level3">
+<h3><code>mbal_forecast_oil() arguments</code></h3>
+<ul>
+<li><code>forecast_lst</code>: A list object of class ‘forecast_oil’.</li>
+<li><code>time_lst</code>: A list object of class ‘time/date’.</li>
+</ul>
+</div>
+<div id="mbal_forecast_oil-outputs" class="section level3">
+<h3><code>mbal_forecast_oil() outputs</code></h3>
+<p>It returns a data frame with the following columns:</p>
+<ul>
+<li><code>P (psia)</code>: Average reservoir pressure.</li>
+<li><code>SOo</code>: Average oil saturation in the oil leg.</li>
+<li><code>SGo</code>: Average gas saturation in the oil leg.</li>
+<li><code>SWo</code>: Average water saturation in the oil leg.</li>
+<li><code>SOT</code>: Average oil saturation in the tank.</li>
+<li><code>SGT</code>: Average gas saturation in the tank.</li>
+<li><code>SWT</code>: Average water saturation in the tank.</li>
+<li><code>GOR (SCF/STB)</code>: Gas to oil ratio.</li>
+<li><code>RF_oil</code>: Oil recovery factor.</li>
+<li><code>RF_gas</code>: Gas recovery factor.</li>
+<li><code>Liq_dropout</code>: Liquid dropout.</li>
+<li><code>Igd</code>: Gas-cap-drive index.</li>
+<li><code>Isd</code>: Solution-gas-drive index.</li>
+<li><code>Inwd</code>: Natural-water-drive index.</li>
+<li><code>Ifwd</code>: Compaction-connate_water-drive index.</li>
+<li><code>Iawd</code>: Artificial-water-drive index.</li>
+<li><code>Itot</code>: Total-drive index.</li>
+</ul>
+</div>
+</div>
+<div id="material-balance-analysis-of-gas-reservoirs" class="section level2">
+<h2><code>Material Balance analysis of Gas Reservoirs</code></h2>
+<p>The following functions can be used for original hydrocarbon in-place estimation, reservoir performance modeling, and forecasting for gas reservoirs:</p>
+<ul>
+<li><p>mbal_time()</p></li>
+<li><p>mbal_optim_param_gas()</p></li>
+<li><p>mbal_optim_gas()</p></li>
+<li><p>mbal_perform_param_gas()</p></li>
+<li><p>mbal_perform_gas()</p></li>
+<li><p>mbal_forecast_param_gas()</p></li>
+<li><p>mbal_forecast_gas()</p></li>
+</ul>
+<div id="mbal_time-arguments-1" class="section level3">
+<h3><code>mbal_time() arguments</code></h3>
+<ul>
+<li><code>x</code>: A vector or sequence of times/dates.</li>
+<li><code>unit</code>: A unit system for input vector x.</li>
+</ul>
+</div>
+<div id="mbal_optim_param_gas-arguments" class="section level3">
+<h3><code>mbal_optim_param_gas() arguments</code></h3>
+<ul>
+<li><code>input_unit</code>: A unit system for parameters, only the character string ‘Field’ is accepted.</li>
+<li><code>output_unit</code>: A unit system for properties, only the character string ‘Field’ is accepted.</li>
+<li><code>unknown_param</code>: A character string showing the unknown parameter(s). One of the following options: ‘G’, ‘We’, ‘M’, or ‘G_M’.</li>
+<li><code>aquifer_model</code>: Defaulted to <code>NULL</code>, otherwise must be a character string, one of the following eight options: ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_rad_edge’, ‘pss_lin_edge’, ‘pss_lin_bottom’, ‘pot’. For further information about each model, please see ‘Raquifer’ package reference manual (<a href="https://CRAN.R-project.org/package=Raquifer" class="uri">https://CRAN.R-project.org/package=Raquifer</a>).</li>
+<li><code>G</code>: Original gas in place, SCF. If unknown, a <code>NULL</code> value must be assigned.</li>
+<li><code>phi</code>: Reservoir porosity, a numeric fraction.</li>
+<li><code>swi</code>: Initial water saturation in the reservoir, a numeric fraction.</li>
+<li><code>Np</code>: Cumulative oil production, STB.</li>
+<li><code>Gp</code>: Cumulative gas production, SCF.</li>
+<li><code>Wp</code>: Cumulative water production, STB.</li>
+<li><code>Wi</code>: Cumulative water injection, STB.</li>
+<li><code>We</code>: Cumulative aquifer water influx, BBL. If unknown, a <code>NULL</code> value must be assigned.</li>
+<li><code>pd</code>: Dew point pressure, a numeric value, psi.</li>
+<li><code>p</code>: Reservoir pressure, a numeric vector, psi.</li>
+<li><code>pvt</code>: A data frame of PVT properties including pressure ‘p’ in ‘psi’, oil formation volume factor ‘Bo’ in ‘bbl/stb’, solution gas-oil ratio ‘Rs’ in ‘scf/stb’, oil viscosity ‘muo’ in ‘cp’, volatilized oil-gas ratio ‘Rv’ in ‘stb/scf’, gas formation volume factor ‘Bg’ in ‘bbl/scf’, gas viscosity ‘mug’ in ‘cp’, water formation volume factor ‘Bw’ in ‘bbl/stb’, and water viscosity ‘muw’ in ‘cp’.</li>
+<li><code>cf</code>: Formation compressibility, a numeric value or vector, 1/psi.</li>
+<li><code>M</code>: Ratio of non-net-pay pore volume to the reservoir (net-pay) volume, a numeric fraction. If unknown, a <code>NULL</code> value must be assigned.</li>
+<li><code>phi_a</code>: Aquifer porosity, a numeric fraction.</li>
+<li><code>perm_h_a</code>: Aquifer horizontal permeability, md. Used in ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘uss_lin_edge’, ‘pss_rad_edge’, ‘pss_lin_edge’ and ‘pot’ aquifer models.</li>
+<li><code>perm_v_a</code>: Aquifer vertical permeability, md. Used in ‘uss_rad_bottom’, ‘uss_lin_bottom’, ‘pss_rad_bottom’, and ‘pss_lin_bottom’ aquifer models.</li>
+<li><code>h_a</code>: Aquifer height, ft.</li>
+<li><code>r_a</code>: Aquifer radius, ft. Used in ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘pss_rad_edge’, and ‘pot’ aquifer models.</li>
+<li><code>r_R</code>: Reservoir radius, ft. Used in ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘pss_rad_edge’, and ‘pot’ aquifer models.</li>
+<li><code>w_a</code>: Aquifer width, ft. Used in ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_lin_edge’, and ‘pss_lin_bottom’ aquifer models.</li>
+<li><code>l_a</code>: Aquifer length, ft. Used in ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_lin_edge’, and ‘pss_lin_bottom’ aquifer models.</li>
+<li><code>tetha</code>: Fraction of reservoir encircled by the aquifer, degrees. Used in ‘uss_rad_edge’, ‘pss_rad_edge’, and ‘pot’ aquifer models.</li>
+<li><code>muw_a</code>: Aquifer water viscosity, cp.</li>
+<li><code>cw_a</code>: Aquifer water compressibility, a numeric value, 1/psi.</li>
+<li><code>cf_a</code>: Aquifer formation compressibility, a numeric value, 1/psi.</li>
+<li><code>wf</code>: Weight factor, a numeric vector of zeros and ones. A zero value excludes the entire row of reservoir history data at a particular time from the material balance analysis.</li>
+<li><code>sgrw</code>: Residual gas saturation in water invaded zone (aquifer encroachment or water injection), a numeric fraction.</li>
+<li><code>mult_len</code>: A numeric vector of initial estimates for the ‘aquifer_model’ parameters. A vector of length one for the ‘pot’ aquifer model. It applies as a multiplier to the radius of the aquifer. A vector of length two for the ‘uss_rad_edge’, and ‘pss_rad_edge’ aquifer models. The first parameter is applied as a multiplier to the aquifer radius, and the second parameter is applied as a multiplier to the aquifer horizontal permeability. A vector of length two for the ‘uss_lin_edge’, and ‘pss_lin_edge’ aquifer models. The first parameter is applied as a multiplier to the aquifer length, and the second parameter is applied as a multiplier to the aquifer horizontal permeability. A vector of length two for the ‘uss_lin_bottom’, and ‘pss_lin_bottom’ aquifer models. The first parameter is applied as a multiplier to the aquifer height, and the second parameter is applied as a multiplier to the aquifer vertical permeability. A vector of length three for the ‘uss_rad_bottom’ aquifer model. The first parameter is applied as a multiplier to the aquifer radius, the second parameter is applied as a multiplier to the aquifer horizontal permeability, and the third parameter is applied as a multiplier to the aquifer vertical permeability.</li>
+<li><code>lower</code>: An optional numeric vector of lower bounds for the ‘aquifer_model’ parameters. See ‘minpack.lm’ package for details.</li>
+<li><code>upper</code>: An optional numeric vector of upper bounds for the ‘aquifer_model’ parameters. See ‘minpack.lm’ package for details.</li>
+<li><code>control</code>: An optional list of control settings. See ‘minpack.lm’ package for details.</li>
+</ul>
+</div>
+<div id="mbal_optim_gas-arguments" class="section level3">
+<h3><code>mbal_optim_gas() arguments</code></h3>
+<ul>
+<li><code>optim_lst</code>: A list object of class ‘optimization_gas’.</li>
+<li><code>time_lst</code>: A list object of class ‘time/date’.</li>
+</ul>
+</div>
+<div id="mbal_optim_gas-outputs" class="section level3">
+<h3><code>mbal_optim_gas() outputs</code></h3>
+<p>It returns a list object with the following elements and a class according to the ‘optim_lst’ inputs:</p>
+<ul>
+<li><code>input_unit</code>: A unit system for parameters.</li>
+<li><code>output_unit</code>: A unit system for properties.</li>
+<li><code>G</code>: Original gas in place, SCF.</li>
+<li><code>phi</code>: Reservoir porosity.</li>
+<li><code>swi</code>: Initial water saturation in the reservoir.</li>
+<li><code>pd</code>: Dew point pressure.</li>
+<li><code>p</code>: Reservoir pressure vector.</li>
+<li><code>cf</code>: Formation compressibility.</li>
+<li><code>M</code>: Ratio of non-net-pay pore volume to the reservoir (net-pay) volume.</li>
+<li><code>pvt</code>: A data frame of PVT properties including pressure ‘p’ in ‘psi’, oil formation volume factor ‘Bo’ in ‘bbl/stb’, solution gas-oil ratio ‘Rs’ in ‘scf/stb’, oil viscosity ‘muo’ in ‘cp’, volatilized oil-gas ratio ‘Rv’ in ‘stb/scf’, gas formation volume factor ‘Bg’ in ‘bbl/scf’, gas viscosity ‘mug’ in ‘cp’, water formation volume factor ‘Bw’ in ‘bbl/stb’, and water viscosity ‘muw’ in ‘cp’.</li>
+<li><code>prod</code>: A data frame of production data, Np, Rp, and Wp.</li>
+<li><code>inj</code>: A data frame of injection data, Gi, and Wi.</li>
+<li><code>We</code>: A vector of aquifer encroached water into the reservoir.</li>
+<li><code>aquifer</code>: A list of aquifer parameters and its class.</li>
+<li><code>wf</code>: Weight factor.</li>
+<li><code>sgrw</code>: Residual gas saturation in water invaded zone (aquifer encroachment or water injection).</li>
+<li><code>p_est</code>: Estimated pressures from the material balance analysis.</li>
+</ul>
+</div>
+<div id="mbal_perform_param_gas-arguments" class="section level3">
+<h3><code>mbal_perform_param_gas() arguments</code></h3>
+<ul>
+<li><code>input_unit</code>: A unit system for parameters, only the character string ‘Field’ is accepted.</li>
+<li><code>output_unit</code>: A unit system for properties, only the character string ‘Field’ is accepted.</li>
+<li><code>aquifer_model</code>: Defaulted to <code>NULL</code>, otherwise must be a character string, one of the following eight options: ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_rad_edge’, ‘pss_lin_edge’, ‘pss_lin_bottom’, ‘pot’. For further information about each model, please see ‘Raquifer’ package reference manual.</li>
+<li><code>G</code>: Original gas in place, SCF.</li>
+<li><code>phi</code>: Reservoir porosity, a numeric fraction.</li>
+<li><code>swi</code>: Initial water saturation in the reservoir, a numeric fraction.</li>
+<li><code>Np</code>: Cumulative oil production, STB.</li>
+<li><code>Gp</code>: Cumulative gas production, SCF.</li>
+<li><code>Wp</code>: Cumulative water production, STB.</li>
+<li><code>Wi</code>: Cumulative water injection, STB.</li>
+<li><code>We</code>: Cumulative aquifer water influx, BBL. If unknown, a <code>NULL</code> value must be assigned.</li>
+<li><code>pd</code>: Dew point pressure, a numeric value, psi.</li>
+<li><code>p</code>: Reservoir pressure, a numeric vector, psi.</li>
+<li><code>pvt</code>: A data frame of PVT properties including pressure ‘p’ in ‘psi’, oil formation volume factor ‘Bo’ in ‘bbl/stb’, solution gas-oil ratio ‘Rs’ in ‘scf/stb’, oil viscosity ‘muo’ in ‘cp’, volatilized oil-gas ratio ‘Rv’ in ‘stb/scf’, gas formation volume factor ‘Bg’ in ‘bbl/scf’, gas viscosity ‘mug’ in ‘cp’, water formation volume factor ‘Bw’ in ‘bbl/stb’, and water viscosity ‘muw’ in ‘cp’.</li>
+<li><code>cf</code>: Formation compressibility, a numeric value or vector, 1/psi.</li>
+<li><code>M</code>: Ratio of non-net-pay pore volume to the reservoir (net-pay) volume, a numeric fraction.</li>
+<li><code>phi_a</code>: Aquifer porosity, a numeric fraction.</li>
+<li><code>perm_h_a</code>: Aquifer horizontal permeability, md. Used in ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘uss_lin_edge’, ‘pss_rad_edge’, ‘pss_lin_edge’ and ‘pot’ aquifer models.</li>
+<li><code>perm_v_a</code>: Aquifer vertical permeability, md. Used in ‘uss_rad_bottom’, ‘uss_lin_bottom’, ‘pss_rad_bottom’, and ‘pss_lin_bottom’ aquifer models.</li>
+<li><code>h_a</code>: Aquifer height, ft.</li>
+<li><code>r_a</code>: Aquifer radius, ft. Used in ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘pss_rad_edge’, and ‘pot’ aquifer models.</li>
+<li><code>r_R</code>: Reservoir radius, ft. Used in ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘pss_rad_edge’, and ‘pot’ aquifer models.</li>
+<li><code>w_a</code>: Aquifer width, ft. Used in ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_lin_edge’, and ‘pss_lin_bottom’ aquifer models.</li>
+<li><code>l_a</code>: Aquifer length, ft. Used in ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_lin_edge’, and ‘pss_lin_bottom’ aquifer models.</li>
+<li><code>tetha</code>: Fraction of reservoir encircled by the aquifer, degrees. Used in ‘uss_rad_edge’, ‘pss_rad_edge’, and ‘pot’ aquifer models.</li>
+<li><code>muw_a</code>: Aquifer water viscosity, cp.</li>
+<li><code>cw_a</code>: Aquifer water compressibility, a numeric value, 1/psi.</li>
+<li><code>cf_a</code>: Aquifer formation compressibility, a numeric value, 1/psi.</li>
+<li><code>wf</code>: Weight factor, a numeric vector of zeros and ones. A zero value excludes the entire row of reservoir history data at a particular time from the material balance analysis.</li>
+<li><code>sgrw</code>: Residual gas saturation in water invaded zone (aquifer encroachment or water injection), a numeric fraction.</li>
+</ul>
+</div>
+<div id="mbal_perform_gas-arguments" class="section level3">
+<h3><code>mbal_perform_gas() arguments</code></h3>
+<ul>
+<li><code>mbal_lst</code>: A list object of class ‘mbal_gas’.</li>
+<li><code>time_lst</code>: A list object of class ‘time/date’.</li>
+</ul>
+</div>
+<div id="mbal_perform_gas-outputs" class="section level3">
+<h3><code>mbal_perform_gas() outputs</code></h3>
+<p>It returns a data frame with the following columns:</p>
+<ul>
+<li><code>P (psia)</code>: Average reservoir pressure.</li>
+<li><code>Eo (bbl/STB)</code>: Oil expansivity.</li>
+<li><code>Eg (bbl/SCF)</code>: Gas expansivity.</li>
+<li><code>Ew (bbl/STB)</code>: Water expansivity.</li>
+<li><code>Ef (bbl/bbl)</code>: Rock expansivity.</li>
+<li><code>Egwf (bbl/SCF)</code>: Composite expansivity.</li>
+<li><code>Et (bbl)</code>: Total reservoir expansion.</li>
+<li><code>F (bbl)</code>: Net fluid withdrawal.</li>
+<li><code>We</code>: Aquifer encroached water.</li>
+<li><code>Igd</code>: Gas-expansion-drive index.</li>
+<li><code>Inwd</code>: Natural-water-drive index.</li>
+<li><code>Ifwd</code>: Compaction-connate_water-drive index.</li>
+<li><code>Iawd</code>: Artificial-water-drive index.</li>
+<li><code>Itot</code>: Total-drive index.</li>
+<li><code>RF_oil</code>: Oil(condensate) recovery factor.</li>
+<li><code>RF_gas</code>: Gas recovery factor.</li>
+<li><code>SOg</code>: Average oil(condensate) saturation in gas leg.</li>
+<li><code>SGg</code>: Average gas saturation in the gas leg.</li>
+<li><code>SWg</code>: Average water saturation in the gas leg.</li>
+<li><code>SOT</code>: Average oil(condensate) saturation in the tank.</li>
+<li><code>SGT</code>: Average gas saturation in the tank.</li>
+<li><code>SWT</code>: Average water saturation in the tank.</li>
+<li><code>qo (STB/day)</code>: Average oil(condensate) rate within the period.</li>
+<li><code>qg (SCF/day)</code>: Average gas rate within the period.</li>
+<li><code>qw (STB/day)</code>: Average water rate within the period.</li>
+<li><code>fo</code>: In-situ free-oil(condensate) fractional flow.</li>
+<li><code>fw</code>: In-situ water fractional flow.</li>
+<li><code>GOR (SCF/STB)</code>: Gas to oil ratio.</li>
+<li><code>kro/krg</code>: Ratio of oil(condensate) relative permeability to gas relative permeability in the gas leg.</li>
+</ul>
+</div>
+<div id="mbal_forecast_param_gas-arguments" class="section level3">
+<h3><code>mbal_forecast_param_gas() arguments</code></h3>
+<ul>
+<li><code>input_unit</code>: A unit system for parameters, only the character string ‘Field’ is accepted.</li>
+<li><code>output_unit</code>: A unit system for properties, only the character string ‘Field’ is accepted.</li>
+<li><code>aquifer_model</code>: Defaulted to <code>NULL</code>, otherwise must be a character string, one of the following eight options: ‘uss_rad_edge’, ‘uss_rad_bottom’, ‘uss_lin_edge’, ‘uss_lin_bottom’, ‘pss_rad_edge’, ‘pss_lin_edge’, ‘pss_lin_bottom’, ‘pot’. For further information about each model, please see ‘Raquifer’ package reference manual.</li>
+<li><code>G</code>: Original gas in place, SCF.</li>
+<li><code>phi</code>: Reservoir porosity, a numeric fraction.</li>
+<li><code>swi</code>: Initial water saturation in the reservoir, a numeric fraction.</li>
+<li><code>Np</code>: Cumulative oil production, STB.</li>
+<li><code>Gp</code>: Cumulative gas production, SCF.</li>
+<li><code>pd</code>: Dew point pressure, a numeric value, psi.</li>
+<li><code>p</code>: Reservoir pressure, a numeric vector, psi.</li>
+<li><code>pvt</code>: A data frame of PVT properties including pressure ‘p’ in ‘psi’, oil formation volume factor ‘Bo’ in ‘bbl/stb’, solution gas-oil ratio ‘Rs’ in ‘scf/stb’, oil viscosity ‘muo’ in ‘cp’, volatilized oil-gas ratio ‘Rv’ in ‘stb/scf’, gas formation volume factor ‘Bg’ in ‘bbl/scf’, gas viscosity ‘mug’ in ‘cp’, water formation volume factor ‘Bw’ in ‘bbl/stb’, and water viscosity ‘muw’ in ‘cp’.</li>
+<li><code>cf</code>: Formation compressibility, a numeric value or vector, 1/psi.</li>
+<li><code>M</code>: Ratio of non-net-pay pore volume to the reservoir (net-pay) volume, a numeric fraction.</li>
+<li><code>wf</code>: Weight factor, a numeric vector of zeros and ones. A zero value excludes the entire row of reservoir history data at a particular time from the material balance analysis.</li>
+<li><code>sgrw</code>: Residual gas saturation in water invaded zone (aquifer encroachment or water injection), a numeric fraction.</li>
+<li><code>rel_perm</code>: A data frame with four columns: gas saturation ‘Sg’, liquid saturation ‘Sl’, gas relative permeability ‘Krg’, and oil relative permeability ‘Krog’.</li>
+</ul>
+</div>
+<div id="mbal_forecast_gas-arguments" class="section level3">
+<h3><code>mbal_forecast_gas() arguments</code></h3>
+<ul>
+<li><code>forecast_lst</code>: A list object of class ‘forecast_gas’.</li>
+<li><code>time_lst</code>: A list object of class ‘time/date’.</li>
+</ul>
+</div>
+<div id="mbal_forecast_gas-outputs" class="section level3">
+<h3><code>mbal_forecast_gas() outputs</code></h3>
+<p>It returns a data frame with the following columns:</p>
+<ul>
+<li><code>P (psia)</code>: Average reservoir pressure.</li>
+<li><code>SOg</code>: Average oil saturation in the gas leg.</li>
+<li><code>SGg</code>: Average gas saturation in the gas leg.</li>
+<li><code>SWg</code>: Average water saturation in the gas leg.</li>
+<li><code>SOT</code>: Average oil saturation in the tank.</li>
+<li><code>SGT</code>: Average gas saturation in the tank.</li>
+<li><code>SWT</code>: Average water saturation in the tank.</li>
+<li><code>GOR (SCF/STB)</code>: Gas to oil ratio.</li>
+<li><code>RF_oil</code>: Oil recovery factor.</li>
+<li><code>RF_gas</code>: Gas recovery factor.</li>
+<li><code>Liq_dropout</code>: Liquid dropout.</li>
+<li><code>Igd</code>: Gas-expansion-drive index.</li>
+<li><code>Inwd</code>: Natural-water-drive index.</li>
+<li><code>Ifwd</code>: Compaction-connate_water-drive index.</li>
+<li><code>Iawd</code>: Artificial-water-drive index.</li>
+<li><code>Itot</code>: Total-drive index.</li>
+</ul>
+</div>
+</div>
+<div id="installation" class="section level2">
+<h2><code>Installation</code></h2>
+<p>The <code>Rmbal</code> can be installed from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">install.packages</span>(<span class="st">&quot;Rmbal&quot;</span>)</a></code></pre></div>
+</div>
+<div id="references" class="section level2 unnumbered">
+<h2><code>References</code></h2>
+<div id="refs" class="references">
+<div id="ref-Fetkovich1998">
+<p>Fetkovich, M. J., Reese, D. E., &amp; Whitson, C. H. (1998). Application of a General Material Balance for High-Pressure Gas Reservoirs (includes associated paper 51360). <em>SPE Journal</em>, <em>3</em>(01), 3–13. <a href="https://doi.org/10.2118/22921-PA">https://doi.org/10.2118/22921-PA</a></p>
+</div>
+<div id="ref-Walsh1995">
+<p>Walsh, M. P. (1995). A Generalized Approach to Reservoir Material Balance Calculations. <em>Journal of Canadian Petroleum Technology</em>, <em>34</em>(01), 10. <a href="https://doi.org/10.2118/95-01-07">https://doi.org/10.2118/95-01-07</a></p>
+</div>
+<div id="ref-Walsh1994a">
+<p>Walsh, M. P., Ansah, J., &amp; Raghavan, R. (1994a). New, generalized material balance as an equation of a straight line: Part 1- Applications to undersaturated, volumetric reservoirs. <em>Proceedings of the Permian Basin Oil &amp; Gas Recovery Conference</em>, 549–564. <a href="https://doi.org/10.2118/27684-MS">https://doi.org/10.2118/27684-MS</a></p>
+</div>
+<div id="ref-Walsh1994">
+<p>Walsh, M. P., Ansah, J., &amp; Raghavan, R. (1994b). New, generalized material balance as an equation of a straight line: part 2- Applications to saturated and non-volumetric reservoirs. <em>Proceedings of the Permian Basin Oil &amp; Gas Recovery Conference</em>, 859–865. <a href="https://doi.org/10.2118/27728-MS">https://doi.org/10.2118/27728-MS</a></p>
+</div>
+<div id="ref-Walsh2003">
+<p>Walsh, M. P., &amp; Lake, L. W. (2003). <em>A Generalized Approach to Primary Hydrocarbon Recovery</em> (1st ed., p. 652; M. P. Walsh &amp; L. W. Lake, Eds.). Retrieved from <a href="https://www.elsevier.com/books/a-generalized-approach-to-primary-hydrocarbon-recovery-of-petroleum-exploration-and-production/walsh/978-0-444-50683-2">https://www.elsevier.com/books/a-generalized-approach-to-primary-hydrocarbon-recovery-of-petroleum-exploration-and-production/walsh/978-0-444-50683-2</a></p>
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
